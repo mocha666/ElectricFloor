@@ -55,72 +55,31 @@ public class Language {
 		}
 	}
 	
-	public void get(String message, Player name1) {
-		String msg = null;
+	/**
+	 * Get a translated message with arguments in it.<br>
+	 * Argument syntax in lang files: {0}, {1}, {2}... etc.
+	 * 
+	 * @param message
+	 * @param args
+	 */
+	public String get(String message, String... args) {
+		String returns = null;
 		if (messages.containsKey(message)) {
-			msg = messages.get(message);
-			if (msg.contains("{PLAYER}")) {
-				msg.replace("{PLAYER}", name1.getName());
-			} else {
-				//TODO: logging
-				logger.warning("err in get - replace");
-				eLog.log(LogLevel.CRITICAL, "err in get - replace");
-			}
+			returns = prepareArgLists(messages.get(message), args);
+		} else if (defaultM.containsKey(message)) {
+			returns = prepareArgLists(messages.get(message), args);
 		} else {
-			if (defaultM.containsKey(message)) {
-				msg = defaultM.get(message);
-				if (msg.contains("{PLAYER}")) {
-					msg.replace("{PLAYER}", name1.getName());
-				} else {
-					//TODO: logging
-					logger.warning("err in get - replace");
-					eLog.log(LogLevel.CRITICAL, "err in get - replace");
-				}
-				//TODO: logging
-				eLog.log(LogLevel.CRITICAL, "err");
-				logger.severe("err");
-			} else {
-				throw new ElectricError("Fuckin' error in ElectricFloor language system", new NullPointerException("No such message like this in default messages"));
-			}
+			throw new NullPointerException("No such message: " + message);
 		}
+		return returns;
 	}
 	
-	public void get(String message, Player name1, Player name2) {
-		String msg = null;
-		if (messages.containsKey(message)) {
-			msg = messages.get(message);
-			if (msg.contains("{PLAYER}")) {
-				msg.replace("{PLAYER}", name1.getName());
-			} else {
-				//TODO: logging
-				logger.warning("err in get - replace");
-				eLog.log(LogLevel.CRITICAL, "err in get - replace");
-			}
-			
-			if (msg.contains("{PLAYER2}")) {
-				msg.replace("{PLAYER2}", name2.getName());
-			} else {
-				//TODO: logging
-				logger.warning("err in get - replace");
-				eLog.log(LogLevel.CRITICAL, "err in get - replace");
-			}
-		} else {
-			if (defaultM.containsKey(message)) {
-				msg = defaultM.get(message);
-				if (msg.contains("{PLAYER}")) {
-					msg.replace("{PLAYER", name1.getName());
-				} else {
-					//TODO: logging
-					logger.warning("err in get - replace");
-					eLog.log(LogLevel.CRITICAL, "err in get - replace");
-				}
-				//TODO: logging
-				eLog.log(LogLevel.CRITICAL, "err");
-				logger.severe("err");
-			} else {
-				throw new ElectricError("Fuckin' error in ElectricFloor language system", new NullPointerException("No such message like this in default messages"));
-			}
+	private String prepareArgLists(String message, String... args) {
+		int argIndex = message.split("{").length;
+		for (int i = 0; i < argIndex; i++) {
+			message.replace("{" + i + "}", args[i]);
 		}
+		return message;
 	}
 	
 	private void extract() {
