@@ -23,7 +23,7 @@ The essence of ElectricFloor to make a good short minigame, without changing the
 
 #### Gameplay:
 
-You should avoid stepping on electric floor - Run until you can, once you stem in a block, it gain more energy - when it reach the max, the block become deadly. (red)
+You should avoid stepping on electric floor - Run until you can, once you step on a block, it gains more energy - when it reach the max, the block become deadly. (red)
 
 #### Setup
 
