@@ -27,7 +27,7 @@ You should avoid stepping on electric floor - Run until you can, once you step o
 
 #### Setup
 
-1. ~~Download the jar from [Spigot](https://spigotmc.org)~~
+1. ~~Download the jar from [Spigot](https://spigotmc.org)~~ Not available
 
 2. Put the jar int your server's plugin folder
 If you don't have [Essentials](https://dev.bukkit.org/projects/essentials), install it.
