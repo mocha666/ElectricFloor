@@ -150,7 +150,7 @@ public class EfCommand implements CommandExecutor {
 				if (args.length == 2) {
 					if (args[0].equalsIgnoreCase("set")) {
 						if (player.hasPermission("electricfloor.admin") || player.hasPermission("electricfloor.settings") || player.hasPermission("electricfloor.set.wait") || player.hasPermission("electricfloor.set.loss") || player.hasPermission("electricfloor.set.start") || player.hasPermission("electricfloor.set.spawn") || player.hasPermission("electricfloor.set.win1") || player.hasPermission("electricfloor.set.win2") || player.hasPermission("electricfloor.set.win3")) {
-							if (args[1].equalsIgnoreCase("wait")) {
+							if (args[1].equalsIgnoreCase("lobby")) {
 								if (player.hasPermission("electricfloor.admin") || player.hasPermission("electricfloor.settings") || player.hasPermission("electricfloor.set.wait")) {
 									Location loc = player.getLocation();
 									
@@ -163,12 +163,12 @@ public class EfCommand implements CommandExecutor {
 									double yaw = (double) yawF;
 									double pitch = (double) pitchF;
 									
-									plugin.getConfig().set("positions.wait.X", x);
-									plugin.getConfig().set("positions.wait.Y", y);
-									plugin.getConfig().set("positions.wait.Z", z);
-									plugin.getConfig().set("positions.wait.pitch", pitch);
-									plugin.getConfig().set("positions.wait.yaw", yaw);
-									plugin.getConfig().set("positions.wait.world", player.getLocation().getWorld().getName());
+									plugin.getConfig().set("positions.lobby.X", x);
+									plugin.getConfig().set("positions.lobby.Y", y);
+									plugin.getConfig().set("positions.lobby.Z", z);
+									plugin.getConfig().set("positions.lobby.pitch", pitch);
+									plugin.getConfig().set("positions.lobby.yaw", yaw);
+									plugin.getConfig().set("positions.lobby.world", player.getLocation().getWorld().getName());
 									plugin.saveConfig();
 									
 									player.sendMessage(main.chatPrefix + "�6Sikeresen be�ll�tottad ezt a helyet: " + args[1]);
@@ -216,7 +216,7 @@ public class EfCommand implements CommandExecutor {
 									player.sendMessage(ElectricFloor.warnPrefix + "�cNincs jogod a parancs haszn�lat�ra!");
 								}
 								
-							} else if (args[1].equalsIgnoreCase("loss")) {
+							} else if (args[1].equalsIgnoreCase("lost")) {
 								if (player.hasPermission("electricfloor.admin") || player.hasPermission("electricfloor.settings") || player.hasPermission("electricfloor.set.loss")) {
 									Location loc = player.getLocation();
 									
@@ -229,12 +229,12 @@ public class EfCommand implements CommandExecutor {
 									double yaw = (double) yawF;
 									double pitch = (double) pitchF;
 									
-									plugin.getConfig().set("positions.loss.X", x);
-									plugin.getConfig().set("positions.loss.Y", y);
-									plugin.getConfig().set("positions.loss.Z", z);
-									plugin.getConfig().set("positions.loss.pitch", pitch);
-									plugin.getConfig().set("positions.loss.yaw", yaw);
-									plugin.getConfig().set("positions.loss.world", player.getLocation().getWorld().getName());
+									plugin.getConfig().set("positions.lost.X", x);
+									plugin.getConfig().set("positions.lost.Y", y);
+									plugin.getConfig().set("positions.lost.Z", z);
+									plugin.getConfig().set("positions.lost.pitch", pitch);
+									plugin.getConfig().set("positions.lost.yaw", yaw);
+									plugin.getConfig().set("positions.lost.world", player.getLocation().getWorld().getName());
 									plugin.saveConfig();
 									
 									player.sendMessage(main.chatPrefix + "�6Sikeresen be�ll�tottad ezt a helyet: " + args[1]);

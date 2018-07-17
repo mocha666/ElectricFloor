@@ -52,14 +52,14 @@ positions:
       pitch: 0.123456
       yaw: 0.123456
       world: almáskáposzta
-   loss:
+   lost:
       X: 0.123456
       Y: 0.123456
       Z: 0.123456
       pitch: 0.123456
       yaw: 0.123456
       world: almáskáposzta
-   wait:
+   lobby:
       X: 0.123456
       Y: 0.123456
       Z: 0.123456
