@@ -3,7 +3,7 @@
 
 The essence of ElectricFloor to make a good short minigame, without changing the server.
 
-###### Features:
+#### Features:
 * **Custom** language support
 * **MultiVersion** from 1.8 to 1.12
 * **Command Interface**
@@ -15,17 +15,17 @@ The essence of ElectricFloor to make a good short minigame, without changing the
 * **Titles**
 * **Fireworks**
 
-###### Future plan:
+#### Future plan:
 * Publish on [Spigot](https://spigotmc.org)
 * Join NPC menu
 * **AutoStarter**
 * **Stats**
 
-###### Gameplay:
+#### Gameplay:
 
 You should avoid stepping on electric floor - Run until you can, once you stem in a block, it gain more energy - when it reach the max, the block become deadly. (red)
 
-###### Setup
+#### Setup
 
 1. ~~Download the jar from [Spigot](https://spigotmc.org)~~
 
@@ -52,7 +52,7 @@ If you don't have [Essentials](https://dev.bukkit.org/projects/essentials), inst
 6. Start the event
      - If you set up everything good, now you can announce the event. by /event bc. This checks the setup.
 
-###### Commands
+#### Commands
 
 * **Event**
      - /event \- Event command help
