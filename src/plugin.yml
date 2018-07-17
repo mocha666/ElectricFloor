@@ -1,0 +1,115 @@
+name: ElectricFloor
+version: ALPHA-1.0.1
+author: SunStorm
+description: An amazing event plugin
+main: me.electricfloor.main.ElectricFloor
+softdepend: [WorldEdit, Essentials]
+
+commands:
+    electricfloor:
+        usage: /<command>
+        aliases: [ef]
+        description: Main command.
+    event:
+        usage: /<command>
+        description: Event management.
+#    eventnpc:
+#        usage: /<command>
+#        description: Npc management.
+permissions:
+    electricfloor.admin:
+        default: op
+        description: Minden jog
+        children:
+            electricfloor.event.bc: true
+            electricfloor.event.start: true
+            electricfloor.event.stop: true
+            electricfloor.event.kick: true
+            electricfloor.event.join: true
+            electricfloor.event.leave: true
+            electricfloor.set.wait: true
+            electricfloor.set.arena: true
+            electricfloor.set.loss: true
+            electricfloor.set.spawn: true
+            electricfloor.set.start: true
+            electricfloor.set.win1: true
+            electricfloor.set.win2: true
+            electricfloor.set.win3: true
+            electricfloor.reload: true
+    electricfloor.player:
+        default: true
+        description: Player jogok
+        children:
+            electricfloor.event.join: true
+            electricfloor.event.leave: true
+    electricfloor.settings:
+        default: false
+        description: Az event kofigurálási jogai
+        children:
+            electricfloor.set.wait: true
+            electricfloor.set.arena: true
+            electricfloor.set.loss: true
+            electricfloor.set.start: true
+            electricfloor.set.spawn: true
+            electricfloor.set.win1: true
+            electricfloor.set.win2: true
+            electricfloor.set.win3: true
+            electricfloor.player: true
+    electricfloor.event:
+        default: false
+        description: Event irányítási jogok
+        children:
+            electricfloor.event.bc: true
+            electricfloor.event.start: true
+            electricfloor.event.stop: true
+            electricfloor.event.kick: true
+            electricfloor.event.join: true
+            electricfloor.event.leave: true
+    electricfloor.event.bc:
+        default: false
+        description: Event hirdetése
+    electricfloor.event.start:
+        default: false
+        description: Event indítása
+    electricfloor.event.stop:
+        default: false
+        description: Event leállítása
+    electricfloor.event.kick:
+        default: false
+        description: Játékos kirúgása az eventről
+    electricfloor.event.join:
+        default: false
+        description: Csatlakozás az eventhez
+    electricfloor.event.leave:
+        default: false
+        description: Event elhagyása
+    electricfloor.set.wait:
+        default: false
+        description: Váró helyének beállítása
+    electricfloor.set.start:
+        default: false
+        description: Start helyének beállítása, e pont körül lesznek szétszórva a playerek
+    electricfloor.set.arena:
+        default: false
+        description: Aréna helyének beállítása
+    electricfloor.set.loss:
+        default: false
+        description: Vesztesek helyének beállítása
+    electricfloor.set.spawn:
+        default: false
+        description: Spawn helyének beállítása, ide kerülnek a playerek az event vége után, alaőértelmezetten a worldspawnpoint
+    electricfloor.set.win1:
+        default: false
+        description: Az első helyezett helyének beállítása
+    electricfloor.set.win2:
+        default: false
+        description: A második helyezett helyének beállítása
+    electricfloor.set.win3:
+        default: false
+        description: A harmadik helyezett helyének beállítása
+    electricfloor.reload:
+        default: false
+        description: A plugin újraindításának joga
+    
+            
+            

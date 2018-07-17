@@ -1,0 +1,68 @@
+#ElectricFloor
+#
+#event plugin by SunStorm
+#
+messages:
+   prefix: "&b[&aElectricFloor&b]&r"
+   warnprefix: "&c[&eElectricFloor&c]&r"
+rewards:
+   win1: 5000
+   win2: 3500
+   win3: 2000
+teleportRadius: 5
+motd: true
+language: hu
+positions:
+   arena:
+      min:
+         X: 0.123456
+         Y: 0.123456
+         Z: 0.123456
+         world: almáskáposzta
+      max:
+         X: 0.123456
+         Y: 0.123456
+         Z: 0.123456
+         world: almáskáposzta
+   spawn:
+      X: 0.123456
+      Y: 0.123456
+      Z: 0.123456
+      pitch: 0.123456
+      yaw: 0.123456
+      world: almáskáposzta
+   win1:
+      X: 0.123456
+      Y: 0.123456
+      Z: 0.123456
+      pitch: 0.123456
+      yaw: 0.123456
+      world: almáskáposzta
+   win2:
+      X: 0.123456
+      Y: 0.123456
+      Z: 0.123456
+      pitch: 0.123456
+      yaw: 0.123456
+      world: almáskáposzta
+   win3:
+      X: 0.123456
+      Y: 0.123456
+      Z: 0.123456
+      pitch: 0.123456
+      yaw: 0.123456
+      world: almáskáposzta
+   loss:
+      X: 0.123456
+      Y: 0.123456
+      Z: 0.123456
+      pitch: 0.123456
+      yaw: 0.123456
+      world: almáskáposzta
+   wait:
+      X: 0.123456
+      Y: 0.123456
+      Z: 0.123456
+      pitch: 0.123456
+      yaw: 0.123456
+      world: almáskáposzta

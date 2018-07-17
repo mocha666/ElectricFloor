@@ -1,0 +1,35 @@
+logging.plugin.enabled: Bekapcsolva!
+filelog.plugin.successStart: A plugin sikeresen elindult!
+filelog.plugin.motdHelp: Ha ki akarod kapcsolni a plugin motd-ját akkor írd át a configban az \"motd: true\" opciót false-ra
+logging.plugin.prefixError: Nem lehetett betölteni a chatPrefixet, alapállapotba lett állítva
+filelog.plugin.prefixError: Nem lehetett betölteni a chatPrefixet a configból, alapállapotba látt állítva
+logging.plugin.wprefixError: Nem lehetett betölteni a warnPrefixet, alapállapotba lett állítva
+filelog.plugin.wprefixError: Nem lehetett betölteni a warnPrefixet a configból, alapállapotba látt állítva
+logging.incompatibleServerVersion: A plugin nem kompatibilis a szerver verzióval:
+logging.compatibleVersions: Kompatibilis verziók: 1.8, 1.9, 1.10, 1.11, 1.12 (+ minden alverzió)
+filelog.incompatibleServerVersion: A plugin nem kompatibilis ezzel a NetMinecraftServer protokol verzióval:
+filelog.disabling: Plugin kikapcsolása...
+logging.disabled: Kikapcsolva!
+filelog.disabled: Plugin kikapcsolva!
+logging.compatible: A plugin kompatibilis ezzel a szerver verzióval:
+filelog.compatible: A plugin kompatibilis ezzel a szerver verzióval:
+logging.EssentialsNotFound: Nem található Essentials, a plugin leáll
+filelog.EssentialsNotFound: Nem található Essentials, a plugin kikapcsol
+logging.EssentialsFound: Essentials plugin található! Szükséges funkciók bekapcsolva
+filelog.EssentialsFound: Essentials plugin található! Szükséges funkciók bekapcsolva
+logging.WorldEditNotFound: Nem található WorldEdit, saját funkciók bekapcsolva
+filelog.WorldEditNotFound: Nem található WorldEdit, a plugin a saját funkcióit használja a kijelöléshez
+logging.WorldEditFound: WorldEdit plugin található! Szükséges funkciók bekapcsolva
+filelog.WorldEditFound: A szerveren WorldEdit mûködik, a plugin ezt a kijelölést használja
+msg.arenaset.worldError: Az aréna mindkét pontjának ugyanazon világban kell lennie
+filelog.arenaset.worldError: ArenaSet: {PLAYER} különbözõ világokba rakta az aréna két pontját
+msg.arenaset.nullSelect: A kijelölés nem lehet null!
+filelog.arenaset.nullSelect: ArenaSet: {PLAYER} kijelölés nélkül akart arénát csinálni
+msg.arenaset.moreLevels: A kijelölés csak egy szintes lehet!
+filelog.arenaset.moreLevels: ArenaSet: {PLAYER} nem egyszintû kijelöléssel akart arénát készíteni
+logging.arenaset.nullInConfig: Nem létezik a configban megadott pozíció az arénához!
+filelog.arenaset.nullInConfig: ArenaSet: a korábban tárolt pozíció nem létezik a configban!
+msg.event.playerOut: {PLAYER} kiesett! Fennmaradó játékosok: 
+filelog.event.playerOut: {PLAYER} kiesett az eventbõl, fennmaradó játékosok:
+msg.event.rank3: 3. Helyezett lettél!
+msg.
