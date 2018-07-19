@@ -4,7 +4,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
@@ -25,23 +24,19 @@ import me.electricfloor.event.Event;
 import me.electricfloor.event.EventGroup;
 import me.electricfloor.file.logging.ELogger;
 import me.electricfloor.file.logging.LogLevel;
+import me.electricfloor.helpers.ConfigManager;
 
 public class ElectricFloor extends JavaPlugin implements Listener {
 	static Logger logger;
 	public static ELogger eLogger;
-	public static boolean eventReadyTo;
-	public static boolean eventBroadcasted;
-	public static Location sel1;
-	public static Location sel2;
 	public static boolean useWorldEdit;
-	public String chatPrefix;
+	public static String chatPrefix;
 	public static String warnPrefix;
 	public static String serverVersion;
-	public static int eventPlayerCounter;
-	public static int teleportRadius;
 	public static PluginDescriptionFile pdfile;
 	public static boolean isRestart;
-	public static Debug d;
+	
+	public static ConfigManager configManager = new ConfigManager();
 	
 	private static ElectricFloor instance;
 	private static Listeners listeners;
@@ -69,15 +64,13 @@ public class ElectricFloor extends JavaPlugin implements Listener {
 		
 		l.setupLanguage();
 		
-		d.init();
-		
 		logger.info("[" + pdfile.getName() + "]" + " (V." + pdfile.getVersion() + ") Enabled!");
 		eLogger.log(LogLevel.INFO, "Plugin successfully started!");
 		if (this.getConfig().getBoolean("motd")) {
 			eLogger.log(LogLevel.INFO, "If you want to disable motd, set it false in mainConfig.yml");
 		}
 		
-		teleportRadius = getConfig().getInt("teleportRadius", 5);
+		Event.teleportRadius = getConfig().getInt("teleportRadius", 5);
 		
 		chatPrefix = getConfig().getString("messages.prefix", "§b[§eElectricFloor§b]§r ");
 		warnPrefix = getConfig().getString("messages.warnprefix","§a[§2ElectricFloor§a]§r ");
@@ -97,8 +90,8 @@ public class ElectricFloor extends JavaPlugin implements Listener {
 	
 	public void onDisable() {
 		eLogger.log(LogLevel.INFO, "Disabling...");
-		eventReadyTo = false;
-		eventBroadcasted = false;
+		Event.eventReadyTo = false;
+		Event.eventBroadcasted = false;
 		
 		for (Player all : Bukkit.getOnlinePlayers()) {
 			Event.leaveEvent(all, plugin, true);
@@ -165,26 +158,17 @@ public class ElectricFloor extends JavaPlugin implements Listener {
         }
 	}
 	
-	public static Debug getDebug() {
-		return d;
-	}
-	
 	public static NMSimplement getImplementation() {
 		return implement;
 	}
 	
 	public void initVariables() {
 		instance = this;
-		d = new Debug();
 		eLogger = new ELogger();
 		logger = Logger.getLogger("Minecraft");
 		isRestart = false;
 		pdfile = getDescription();
 		l = new Language();
-		eventReadyTo = false;
-		eventBroadcasted = false;
-		sel1 = null;
-		sel2 = null;
 		listeners = new Listeners();
 	}
 	

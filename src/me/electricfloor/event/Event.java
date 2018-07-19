@@ -27,13 +27,16 @@ import me.electricfloor.main.ElectricFloor;
 import me.electricfloor.main.Utils;
 
 public class Event {
+	public static boolean eventReadyTo = false;
+	public static boolean eventBroadcasted = false;
+	public static Location sel1 = null;
+	public static Location sel2 = null;
+	public static int eventPlayerCounter = 0;
+	public static int teleportRadius = 5;
 	
-	private static ElectricFloor main = ElectricFloor.getInstance();
 	private static NMSimplement implement = ElectricFloor.getImplementation();
 	private static ELogger eLogger = ElectricFloor.getELogger();
-	private static String chatPrefix = main.chatPrefix;
-	private static String warnPrefix = ElectricFloor.warnPrefix;
-	private static Logger logger = main.getLogger();
+	private static Logger logger = ElectricFloor.getNormalLogger();
 	
 	protected static HashMap<String, Player> nm = new HashMap<String, Player>();
 	protected static HashMap<String, Player> lobby = new HashMap<String, Player>();
@@ -65,8 +68,8 @@ public class Event {
 				
 				if (blockManager.isCharged(block)) {
 					eventFallout(player, plugin);
-					if (ElectricFloor.eventPlayerCounter == 2) {
-						ElectricFloor.eventPlayerCounter = 1;
+					if (Event.eventPlayerCounter == 2) {
+						Event.eventPlayerCounter = 1;
 						for (Player all : EventGroup.INGAME.map.values()) {
 							eventFallout(all, plugin);
 						}
@@ -85,25 +88,25 @@ public class Event {
 			}
 		}
 		
-		ElectricFloor.eventPlayerCounter = ingame.size();
+		Event.eventPlayerCounter = ingame.size();
 		
-		if (ElectricFloor.eventPlayerCounter > 3) {
-			player.sendMessage(chatPrefix + ChatColor.GOLD + "You died!");
+		if (Event.eventPlayerCounter > 3) {
+			player.sendMessage(ElectricFloor.chatPrefix + ChatColor.GOLD + "You died!");
 			player.removeMetadata("ingame", plugin);
 			player.setMetadata("loss", new FixedMetadataValue(plugin, "EF"));
 			Utils.teleportWithConfig(player, plugin, "loss", false);
 			
-			for (int i = 0; i < ElectricFloor.eventPlayerCounter; i++) {
+			for (int i = 0; i < Event.eventPlayerCounter; i++) {
 				Player br = ingame.get(i);
 				
-				br.sendMessage(chatPrefix + player.getName() + " fell out! Players remaining: " + ElectricFloor.eventPlayerCounter);
+				br.sendMessage(ElectricFloor.chatPrefix + player.getName() + " fell out! Players remaining: " + Event.eventPlayerCounter);
 			}
 			
-			eLogger.log(LogLevel.INFO, player.getName() + " fell out, players remaining: " + ElectricFloor.eventPlayerCounter);
+			eLogger.log(LogLevel.INFO, player.getName() + " fell out, players remaining: " + Event.eventPlayerCounter);
 		}
 		
-		if (ElectricFloor.eventPlayerCounter == 3) {
-			player.sendMessage(chatPrefix + ChatColor.GOLD + "You placed 3rd!");
+		if (Event.eventPlayerCounter == 3) {
+			player.sendMessage(ElectricFloor.chatPrefix + ChatColor.GOLD + "You placed 3rd!");
 			player.removeMetadata("ingame", plugin);
 			player.setMetadata("win3", new FixedMetadataValue(plugin, "EF"));
 			Utils.teleportWithConfig(player, plugin, "win3", false);
@@ -114,16 +117,16 @@ public class Event {
 				}
 			}, 40L);
 			
-			for (int i = 0; i < ElectricFloor.eventPlayerCounter; i++) {
+			for (int i = 0; i < Event.eventPlayerCounter; i++) {
 				Player br = ingame.get(i);
 				
-				br.sendMessage(chatPrefix + player.getName() + " fell out! Players remaining: " + ElectricFloor.eventPlayerCounter);
+				br.sendMessage(ElectricFloor.chatPrefix + player.getName() + " fell out! Players remaining: " + Event.eventPlayerCounter);
 				eLogger.log(LogLevel.INFO, player.getName() + " fell out, and placed 3rd");
 			}
 		}
 		
-		if (ElectricFloor.eventPlayerCounter == 2) {
-			player.sendMessage(chatPrefix + ChatColor.GOLD + "You placed 2nd!");
+		if (Event.eventPlayerCounter == 2) {
+			player.sendMessage(ElectricFloor.chatPrefix + ChatColor.GOLD + "You placed 2nd!");
 			player.removeMetadata("ingame", plugin);
 			player.setMetadata("win2", new FixedMetadataValue(plugin, "EF"));
 			Utils.teleportWithConfig(player, plugin, "win2", false);
@@ -134,17 +137,17 @@ public class Event {
 				}
 			}, 40L);
 			
-			for (int i = 0; i < ElectricFloor.eventPlayerCounter; i++) {
+			for (int i = 0; i < Event.eventPlayerCounter; i++) {
 				Player br = ingame.get(i);
 				
-				br.sendMessage(chatPrefix + player.getName() + " fell out! Players remaining: " + ElectricFloor.eventPlayerCounter);
+				br.sendMessage(ElectricFloor.chatPrefix + player.getName() + " fell out! Players remaining: " + Event.eventPlayerCounter);
 				eLogger.log(LogLevel.INFO, player.getName() + " fell out, and placed 2rd");
 			}
 			
 		}
 		
-		if (ElectricFloor.eventPlayerCounter == 1) {
-			player.sendMessage(chatPrefix + ChatColor.GOLD + "You placed 1st!");
+		if (Event.eventPlayerCounter == 1) {
+			player.sendMessage(ElectricFloor.chatPrefix + ChatColor.GOLD + "You placed 1st!");
 			player.removeMetadata("ingame", plugin);
 			player.setMetadata("win1", new FixedMetadataValue(plugin, "EF"));
 			Utils.teleportWithConfig(player, plugin, "win1", false);
@@ -161,6 +164,7 @@ public class Event {
 		
 	}
 	
+	@SuppressWarnings("deprecation")
 	public static void eventEnding(Player player, Plugin plugin, ArrayList<Player> ingame) {
 		BukkitScheduler scheudler = Bukkit.getServer().getScheduler();
 		
@@ -191,7 +195,7 @@ public class Event {
 		scheudler.scheduleSyncDelayedTask(plugin, new Runnable () {
 			public void run() {
 				Utils.arenaSet(null, null, null, true);
-				String text = chatPrefix + "&cThe event has ended!";
+				String text = ElectricFloor.chatPrefix + "&cThe event has ended!";
 				Bukkit.getServer().broadcastMessage(text.replace('&', '�'));
 				
 				for (Player all : Bukkit.getOnlinePlayers()) {
@@ -271,10 +275,10 @@ public class Event {
 						for (Player all : Bukkit.getOnlinePlayers()) {
 							if (all.hasMetadata("WaitE") || all.hasMetadata("ingame") || all.hasMetadata("loss") || all.hasMetadata("win1") || all.hasMetadata("win2") || all.hasMetadata("win3")) {
 								leaveEvent(all, plugin, true);
-								all.sendMessage(chatPrefix + ChatColor.YELLOW + "Az event v�get �rt!");
+								all.sendMessage(ElectricFloor.chatPrefix + ChatColor.YELLOW + "Az event v�get �rt!");
 							}
 						}
-						ElectricFloor.eventBroadcasted = false;
+						Event.eventBroadcasted = false;
 						Location effectLoc = Utils.teleportWithConfig(player, plugin, "spawn", true);
 					}
 				}, 240L);
@@ -292,21 +296,21 @@ public class Event {
 	 */
 	public static void joinEvent(Player player, Plugin plugin, boolean selector) {
 		if (!EventGroup.isInGroup(player, EventGroup.NOT_MARKED)) {
-			player.sendMessage(main.chatPrefix + "you already joined the event!");
+			player.sendMessage(ElectricFloor.chatPrefix + "you already joined the event!");
 		} else {
-			if (ElectricFloor.eventBroadcasted == true) {
+			if (Event.eventBroadcasted == true) {
 				eLogger.log(LogLevel.INFO, player.getName() + " joined the event");
 				EventGroup.movePlayerGroup(player, EventGroup.NOT_MARKED, EventGroup.LOBBY);
 				
 				StoredPlayer sp = new StoredPlayer(player);
 				storedPlayers.put(player.getName(), sp);
-				player.sendMessage(main.chatPrefix + ChatColor.AQUA + "You successfully joined the event!");
-				player.sendMessage(main.chatPrefix + ChatColor.AQUA + "Leave event:" + ChatColor.GOLD + " /event leave");
-				player.sendMessage(main.chatPrefix + ChatColor.AQUA + "You can only leave the event until it start");
+				player.sendMessage(ElectricFloor.chatPrefix + ChatColor.AQUA + "You successfully joined the event!");
+				player.sendMessage(ElectricFloor.chatPrefix + ChatColor.AQUA + "Leave event:" + ChatColor.GOLD + " /event leave");
+				player.sendMessage(ElectricFloor.chatPrefix + ChatColor.AQUA + "You can only leave the event until it start");
 				
 				Utils.teleportWithConfig(player, plugin, "wait", false);
 			} else {
-				player.sendMessage(main.chatPrefix + "There is no announced event, you can't join!");
+				player.sendMessage(ElectricFloor.chatPrefix + "There is no announced event, you can't join!");
 			}
 		}
 	}
@@ -331,19 +335,19 @@ public class Event {
 			if (!EventGroup.isInGroup(player, EventGroup.INGAME)) {
 				if (EventGroup.isInGroup(player, EventGroup.LOBBY) || EventGroup.isInGroup(player, EventGroup.LOST)) {
 					EventGroup.movePlayerGroup(player, EventGroup.getPlayerGroup(player), EventGroup.NOT_MARKED);
-					player.sendMessage(chatPrefix + "You left the event!");
+					player.sendMessage(ElectricFloor.chatPrefix + "You left the event!");
 					
 					Utils.teleportWithConfig(player, plugin, "spawn", false);
 					
 				} else {
 					if (EventGroup.isInGroup(player, EventGroup.WIN1) || EventGroup.isInGroup(player, EventGroup.WIN2) || EventGroup.isInGroup(player, EventGroup.WIN3)) {
-						player.sendMessage(warnPrefix + "§aWinners can't leave!");
+						player.sendMessage(ElectricFloor.warnPrefix + "§aWinners can't leave!");
 					} else {
-						player.sendMessage(warnPrefix + "�6You not in event!");
+						player.sendMessage(ElectricFloor.warnPrefix + "�6You not in event!");
 					}
 				}
 			} else {
-				player.sendMessage(warnPrefix + "§6Ingame can't exit! If you really want to go, then step on a red glass..");
+				player.sendMessage(ElectricFloor.warnPrefix + "§6Ingame can't exit! If you really want to go, then step on a red glass..");
 			}
 			
 		}

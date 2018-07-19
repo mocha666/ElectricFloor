@@ -96,8 +96,8 @@ public class EventCommand implements CommandExecutor {
 						if (state == true) {
 							logger.info("[ELectricFloor] Az event használatra kész!");
 							eLog.log(LogLevel.INFO, player.getName() + " meghirdette az eventet!");
-							ElectricFloor.eventReadyTo = true;
-							ElectricFloor.eventBroadcasted = true;
+							Event.eventReadyTo = true;
+							Event.eventBroadcasted = true;
 							
 							for (Player onlineP : Bukkit.getOnlinePlayers()) {
 								implement.sendActionbar(onlineP, "&4&lElectricFloor event lesz! &c&lCsatlakozáshoz: &6&n&l/event join");
@@ -109,7 +109,7 @@ public class EventCommand implements CommandExecutor {
 							}
 						} else {
 							player.sendMessage(ElectricFloor.warnPrefix + "Â§cAz eventhez szükséges helyek közül egy vagy több nincs beállítva!");
-							ElectricFloor.eventReadyTo = false;
+							Event.eventReadyTo = false;
 						}
 					} else {
 						player.sendMessage(ElectricFloor.warnPrefix + "Â§cNincs jogod a parancs használatára!");
@@ -119,8 +119,8 @@ public class EventCommand implements CommandExecutor {
 				
 				if (args[0].equalsIgnoreCase("start")) {
 					if (player.hasPermission("electricfloor.admin") || player.hasPermission("electricfloor.event") || player.hasPermission("electricfloor.event.start")) {
-						if (ElectricFloor.eventBroadcasted == true) {
-							if (ElectricFloor.eventReadyTo = true) {
+						if (Event.eventBroadcasted == true) {
+							if (Event.eventReadyTo = true) {
 								eLog.log(LogLevel.INFO, player.getName() + " elindította az eventet!");
 
 								for (Player all : Bukkit.getOnlinePlayers()) {	
@@ -133,17 +133,17 @@ public class EventCommand implements CommandExecutor {
 										int tpX = 0;
 										int tpZ = 0;
 										if (select == 0) {
-											tpX = x + random.nextInt(ElectricFloor.teleportRadius);
-											tpZ = z + random.nextInt(ElectricFloor.teleportRadius);
+											tpX = x + random.nextInt(Event.teleportRadius);
+											tpZ = z + random.nextInt(Event.teleportRadius);
 										} else if (select == 1){
-											tpX = x - random.nextInt(ElectricFloor.teleportRadius);
-											tpZ = z - random.nextInt(ElectricFloor.teleportRadius);
+											tpX = x - random.nextInt(Event.teleportRadius);
+											tpZ = z - random.nextInt(Event.teleportRadius);
 										} else if (select == 2) {
-											tpX = x - random.nextInt(ElectricFloor.teleportRadius);
-											tpZ = z + random.nextInt(ElectricFloor.teleportRadius);
+											tpX = x - random.nextInt(Event.teleportRadius);
+											tpZ = z + random.nextInt(Event.teleportRadius);
 										} else if (select == 3) {
-											tpX = x + random.nextInt(ElectricFloor.teleportRadius);
-											tpZ = z - random.nextInt(ElectricFloor.teleportRadius);
+											tpX = x + random.nextInt(Event.teleportRadius);
+											tpZ = z - random.nextInt(Event.teleportRadius);
 										}
 										
 										loc.setX(tpX);
@@ -179,12 +179,12 @@ public class EventCommand implements CommandExecutor {
 							if (EventGroup.isInEvent(eventPlayer)) {
 								Event.leaveEvent(eventPlayer, plugin, true);
 								eventPlayer.sendMessage(main.chatPrefix + "Az eventet leállították, ki lettál léptetve!");
-								ElectricFloor.eventPlayerCounter = 0;
+								Event.eventPlayerCounter = 0;
 								eventPlayer.setFoodLevel(20);
 							}
 						}
 						
-						ElectricFloor.eventBroadcasted = false;
+						Event.eventBroadcasted = false;
 						player.sendMessage(main.chatPrefix + "Leállítottad az eventet!");
 						logger.info("[ElectricFloor] " + player.getName() + " leállította az eventet!");
 					} else {
@@ -214,7 +214,7 @@ public class EventCommand implements CommandExecutor {
 									
 									Utils.teleportWithConfig(target, plugin, "spawn", false);
 									target.sendMessage(main.chatPrefix + "ki lettél rúgva az eventről " + player.getName() + " által");
-									ElectricFloor.eventPlayerCounter--;
+									Event.eventPlayerCounter--;
 									logger.info("[ElectricFloor] " + player.getName() + " kirúgta az eventről őt: " + target.getName());
 								} else {
 									player.sendMessage(ElectricFloor.warnPrefix + "Â§c" + target.getName() + " nem csatlakozott az eventhez!");

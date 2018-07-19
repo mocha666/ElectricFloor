@@ -16,8 +16,6 @@ public class ELogger extends YamlConfiguration {
 
 	static Plugin plugin = ElectricFloor.getPlugin();
 	
-	Debug d = ElectricFloor.getDebug();
-	
 	public void createLogFile(boolean selector) {
 		try {
             File file = new File(plugin.getDataFolder().getAbsolutePath() + "/log.txt");
@@ -55,8 +53,7 @@ public class ELogger extends YamlConfiguration {
 				} else {
 					error(msg);
 				}
-				
-				if (d.enabled) {
+				if (ElectricFloor.configManager.getConfig("mainConfig").getBoolean("printStToConsole")) {
 					e.printStackTrace();
 				} else {
 					ElectricFloor.getNormalLogger().severe("[ElectricFloor] An Exception occured! If you want to know more, look at the log.txt");

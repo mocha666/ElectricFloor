@@ -93,14 +93,14 @@ public class Listeners implements Listener {
 				if (!(is == null)) {
 					if (a == Action.LEFT_CLICK_BLOCK && is.getType() == Material.WOOD_AXE) {
 						Block block = event.getClickedBlock();
-						ElectricFloor.sel1 = block.getLocation();
+						Event.sel1 = block.getLocation();
 						event.setCancelled(true);
 						player.sendMessage(main.chatPrefix + "Pos1 selected");
 					}
 					
 					if (a == Action.RIGHT_CLICK_BLOCK && is.getType() == Material.WOOD_AXE) {
 						Block block = event.getClickedBlock();
-						ElectricFloor.sel2 = block.getLocation();
+						Event.sel2 = block.getLocation();
 						player.sendMessage(main.chatPrefix + "Pos2 selected");
 					}
 				}

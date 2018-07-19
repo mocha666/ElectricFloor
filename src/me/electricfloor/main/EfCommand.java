@@ -13,6 +13,7 @@ import org.bukkit.plugin.Plugin;
 
 import me.electricfloor.Language.Language;
 import me.electricfloor.debug.Debug;
+import me.electricfloor.event.Event;
 import me.electricfloor.file.logging.LogLevel;
 import me.electricfloor.file.logging.ELogger;
 
@@ -25,7 +26,6 @@ public class EfCommand implements CommandExecutor {
 	@SuppressWarnings("unused")
 	private Language l = ElectricFloor.getLanguage();
 	private ElectricFloor main = ElectricFloor.getInstance();
-	private Debug debug = ElectricFloor.getDebug();
 	
 	public EfCommand(Plugin plugin) {
 		
@@ -52,7 +52,7 @@ public class EfCommand implements CommandExecutor {
 					Bukkit.getServer().getPluginManager().enablePlugin(plugin);
 					sender.sendMessage("[ElectricFloor] Sikeres reload!");
 				} else if (args[0].equalsIgnoreCase("debug")) {
-					debugCmd(sender, cmd, commandLabel, args);
+					//debugCmd(sender, cmd, commandLabel, args);
 				} else {
 					sender.sendMessage(ChatColor.GREEN + "==========[ Electric Floor ]==========");
 					sender.sendMessage(ChatColor.AQUA + "/ef        - Ez az oldal");
@@ -134,7 +134,7 @@ public class EfCommand implements CommandExecutor {
 						}
 						
 						if (args[0].equalsIgnoreCase("debug")) {
-							debugCmd(sender, cmd, commandLabel, args);
+							//debugCmd(sender, cmd, commandLabel, args);
 						}
 					} else {//player perm
 						player.sendMessage(" ");
@@ -207,7 +207,7 @@ public class EfCommand implements CommandExecutor {
 								
 							} else if (args[1].equalsIgnoreCase("arena")) {
 								if (player.hasPermission("electricfloor.admin") || player.hasPermission("electricfloor.settings") || player.hasPermission("electricfloor.set.arena")) {
-									Utils.arenaSet(ElectricFloor.sel1, ElectricFloor.sel2, player, false);									
+									Utils.arenaSet(Event.sel1, Event.sel2, player, false);									
 									
 									player.sendMessage(main.chatPrefix + "�6Sikeresen be�ll�tottad ezt a helyet: " + args[1]);
 									
@@ -371,7 +371,7 @@ public class EfCommand implements CommandExecutor {
 		return true;
 	}
 
-	//TODO: improve logging (fancy colors!!) and maybe language
+	/*
 	@SuppressWarnings("deprecation")
 	public void debugCmd(CommandSender sender, Command cmd, String commandLabel, String[] args) {
 		if (args.length == 1) {//help state, at debug
@@ -411,5 +411,6 @@ public class EfCommand implements CommandExecutor {
 			sender.sendMessage("error in args");
 		}
 	}
+	*/
 	
 }

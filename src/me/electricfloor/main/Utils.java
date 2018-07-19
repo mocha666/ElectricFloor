@@ -19,6 +19,7 @@ import org.bukkit.plugin.Plugin;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 import com.sk89q.worldedit.bukkit.selections.Selection;
 
+import me.electricfloor.event.Event;
 import me.electricfloor.file.logging.LogLevel;
 
 public class Utils {
@@ -66,19 +67,19 @@ public class Utils {
 					ElectricFloor.eLogger.log(LogLevel.WARNING, "ArenaSet: " + player.getName() + " kijel�l�s n�lk�l akart ar�n�t csin�lni");
 					return;
 				} else {
-					ElectricFloor.sel1 = selection.getMinimumPoint();
-					ElectricFloor.sel2 = selection.getMaximumPoint();
+					Event.sel1 = selection.getMinimumPoint();
+					Event.sel2 = selection.getMaximumPoint();
 					
-					int minX = ElectricFloor.sel1.getBlockX();
-					int minY = ElectricFloor.sel1.getBlockY();
-					int minZ = ElectricFloor.sel1.getBlockZ();
+					int minX = Event.sel1.getBlockX();
+					int minY = Event.sel1.getBlockY();
+					int minZ = Event.sel1.getBlockZ();
 					
-					int maxX = ElectricFloor.sel2.getBlockX();
-					int maxY = ElectricFloor.sel2.getBlockY();
-					int maxZ = ElectricFloor.sel2.getBlockZ();
+					int maxX = Event.sel2.getBlockX();
+					int maxY = Event.sel2.getBlockY();
+					int maxZ = Event.sel2.getBlockZ();
 					
-					if (ElectricFloor.sel1.getWorld().getName() == ElectricFloor.sel2.getWorld().getName()) {
-						world = ElectricFloor.sel1.getWorld();
+					if (Event.sel1.getWorld().getName() == Event.sel2.getWorld().getName()) {
+						world = Event.sel1.getWorld();
 					} else {
 						ElectricFloor.logger.warning("[ElectricFloor] Az ar�na mindk�t pontj�nak ugyanazon vil�gban kell lennie");
 						ElectricFloor.eLogger.log(LogLevel.WARNING, "ArenaSet: " + player.getName() + " k�l�nb�z� vil�gokba rakta az ar�na k�t pontj�t");
@@ -275,8 +276,6 @@ public class Utils {
 			}
 			
 		}
-		
-		ElectricFloor.d.debug("checker:" + checker);
 		
 		if (checker == 50) {
 			ElectricFloor.eLogger.log(LogLevel.INFO, "Az event haszn�latra k�sz!");
