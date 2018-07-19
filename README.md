@@ -11,7 +11,7 @@ The essence of ElectricFloor to make a good short minigame, without changing the
 * **Rewarding**
 * **Custom arena**
 * **Wand** for setup
-* ** Debug** mode
+* **Debug** mode
 * **ActionBar**
 * **Titles**
 * **Fireworks**
