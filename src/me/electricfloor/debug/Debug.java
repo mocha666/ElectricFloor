@@ -14,9 +14,9 @@ import org.bukkit.plugin.Plugin;
 
 import com.google.common.annotations.Beta;
 
-import me.electricfloor.file.logging.LogLevel;
-import me.electricfloor.file.logging.ELogger;
-import me.electricfloor.helpers.FileHelper;
+import me.electricfloor.file.ELogger;
+import me.electricfloor.file.FileHelper;
+import me.electricfloor.file.LogLevel;
 import me.electricfloor.main.ElectricFloor;
 
 public class Debug {
@@ -28,9 +28,7 @@ public class Debug {
 	private ArrayList<StoredPlayer> enabledPlayers = new ArrayList<StoredPlayer>();
 	
 	private ELogger eLog = new ELogger();
-	private ElectricFloor main = ElectricFloor.getInstance();
 	private Plugin plugin = ElectricFloor.getPlugin();
-	private String cp = main.chatPrefix;
 	
 	private String nl = System.getProperty("line.separator");
 	
@@ -126,7 +124,7 @@ public class Debug {
 	@SuppressWarnings("deprecation")
 	public void debug(String log) {
 		if (enabled) {
-			System.out.println(main.chatPrefix + debugPrefix + log);
+			System.out.println(ElectricFloor.chatPrefix + debugPrefix + log);
 			eLog.log(LogLevel.DEBUG, log);
 		}
 		
@@ -134,14 +132,14 @@ public class Debug {
 		eLog.log(LogLevel.DEBUG, log);
 		for (int i = 0; i < enabledPlayers.size(); i++) {
 			current = Bukkit.getServer().getPlayer(enabledPlayers.get(i).player);
-			current.sendMessage(cp + debugPrefix + log);
+			current.sendMessage(ElectricFloor.chatPrefix + debugPrefix + log);
 		}
 	}
 	
 	@Deprecated
 	public void debugConsole(String log) {
 		if (enabled) {
-			System.out.println(main.chatPrefix + debugPrefix + log);
+			System.out.println(ElectricFloor.chatPrefix + debugPrefix + log);
 			eLog.log(LogLevel.DEBUG, log);
 		}
 	}
@@ -152,7 +150,7 @@ public class Debug {
 		eLog.log(LogLevel.DEBUG, log);
 		for (int i = 0; i < enabledPlayers.size(); i++) {
 			current = Bukkit.getServer().getPlayer(enabledPlayers.get(i).player);
-			current.sendMessage(cp + debugPrefix + log);
+			current.sendMessage(ElectricFloor.chatPrefix + debugPrefix + log);
 		}
 	}
 	

@@ -1,4 +1,4 @@
-package me.electricfloor.helpers;
+package me.electricfloor.config;
 
 import java.io.File;
 import java.io.IOException;
@@ -10,7 +10,7 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.configuration.file.YamlConfiguration;
 
-import me.electricfloor.file.logging.ELogger;
+import me.electricfloor.file.ELogger;
 import me.electricfloor.main.ElectricFloor;
 
 /**
@@ -24,20 +24,22 @@ public class ConfigManager {
 	
 	public HashMap<String, LinkedConfig> configurations = new HashMap<String, LinkedConfig>();
 	
-	public void createConfig(String name) {
+	public LinkedConfig createConfig(String name) {
 		if (configurations.containsKey(name)) {
 			logger.error(name + " config already exist!");
+			return configurations.get(name);
 		} else {
 			File cf;
 			if (name.equalsIgnoreCase("mainconfig")) {
-				cf = new File(ElectricFloor.getPlugin().getDataFolder(), name);
+				cf = new File(ElectricFloor.getPlugin().getDataFolder(), name + ".yml");
 			} else {
-				cf = new File(ElectricFloor.getPlugin().getDataFolder() + "/configurations", name);
+				cf = new File(ElectricFloor.getPlugin().getDataFolder() + "/configurations", name + ".yml");
 			}
 			YamlConfiguration config = YamlConfiguration.loadConfiguration(cf);
 			LinkedConfig c = new LinkedConfig(config, cf);
 			
 			configurations.put(name, c);
+			return c;
 		}
 	}
 	

@@ -19,7 +19,7 @@ public class Arena {
 	
 	public Arena(String name) {
 		this.name = name;
-		this.config = name;
+		this.config = name + "_config";
 		ElectricFloor.manager.createConfig(config);
 		
 	}
