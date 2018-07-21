@@ -1,6 +1,6 @@
 # ElectricFloor
 ## Minecraft Bukkit minigame plugin.
-### ALPHA state, don't use it.
+### ALPHA state, don't use it. Currently not working.
 
 The essence of ElectricFloor to make a good short minigame, without changing the server.
 
