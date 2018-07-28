@@ -1,10 +1,6 @@
 package me.electricfloor.main;
 
-import java.util.logging.Logger;
-
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -12,10 +8,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
 import me.electricfloor.Language.Language;
-import me.electricfloor.debug.Debug;
-import me.electricfloor.event.Event;
-import me.electricfloor.file.logging.LogLevel;
-import me.electricfloor.file.logging.ELogger;
+import me.electricfloor.file.ELogger;
+import me.electricfloor.file.LogLevel;
 
 public class EfCommand implements CommandExecutor {
 	
@@ -25,7 +19,41 @@ public class EfCommand implements CommandExecutor {
 	//TODO: language in efCommand class
 	@SuppressWarnings("unused")
 	private Language l = ElectricFloor.getLanguage();
-	private ElectricFloor main = ElectricFloor.getInstance();
+	
+	public static final String[] preLines = new String[] {
+			" ",
+			" ",
+			" ",
+	};
+	
+	public static final String[] mainHelpPage = new String[] {
+			"§a============§b[ Electric Floor ]§a============",
+			"§b/ef        - This page",
+			"§b/ef reload - Reload config",
+			"§b/ef set    - Configuration page",
+			"§b/event     - Event controls",
+			"§a======================================"
+	};
+	
+	public static final String[] playerHelpPage = new String[] {
+			"§a============§b[ Electric Floor ]§a============",
+			"§b/ef        - This page",
+			"§b/event     - Event controls",
+			"§b======================================"
+	};
+	
+	public static final String[] setterHelpPage = new String[] {
+		"§a=============§b[ Electric Floor ]§a=============",
+		"§b/ef set spawn  - Spawn loc - sets automatically",
+		"§b/ef set start  - Start location",
+		"§b/ef set lobby  - Lobby location",
+		"§b/ef set arena  - Arena location",
+		"§b/ef set lost   - Lost players location",
+		"§b/ef set win1   - 1st place",
+		"§b/ef set win2   - 2nd place",
+		"§b/ef set win3   - 3rd place",
+		"§a======================================="
+	};
 	
 	public EfCommand(Plugin plugin) {
 		
@@ -35,14 +63,8 @@ public class EfCommand implements CommandExecutor {
 
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
 		if (!(sender instanceof Player)) {
-			//szerver
 			if (args.length == 0) {
-				sender.sendMessage(ChatColor.GREEN + "==========[ Electric Floor ]==========");
-				sender.sendMessage(ChatColor.AQUA + "/ef        - Ez az oldal");
-				sender.sendMessage(ChatColor.AQUA + "/ef reload - Konfig �jrat�lt�se");
-				sender.sendMessage(ChatColor.AQUA + "/ef debug  - Debug m�d");
-				sender.sendMessage(ChatColor.AQUA + "/event     - Event ir�ny�t�sa");
-				sender.sendMessage(ChatColor.GREEN + "======================================");
+				sender.sendMessage(mainHelpPage);
 			} else if (args.length == 1) {
 				if (args[0].equalsIgnoreCase("reload")) {
 					sender.sendMessage("[ElectricFloor] Reload...");
@@ -50,85 +72,48 @@ public class EfCommand implements CommandExecutor {
 					plugin.reloadConfig();
 					Bukkit.getServer().getPluginManager().disablePlugin(plugin);
 					Bukkit.getServer().getPluginManager().enablePlugin(plugin);
-					sender.sendMessage("[ElectricFloor] Sikeres reload!");
+					sender.sendMessage("[ElectricFloor] Successful reload!");
 				} else if (args[0].equalsIgnoreCase("debug")) {
 					//debugCmd(sender, cmd, commandLabel, args);
 				} else {
-					sender.sendMessage(ChatColor.GREEN + "==========[ Electric Floor ]==========");
-					sender.sendMessage(ChatColor.AQUA + "/ef        - Ez az oldal");
-					sender.sendMessage(ChatColor.AQUA + "/ef reload - Konfig �jrat�lt�se");
-					sender.sendMessage(ChatColor.AQUA + "/ef debug  - Debug m�d");
-					sender.sendMessage(ChatColor.AQUA + "/event     - Event ir�ny�t�sa");
-					sender.sendMessage(ChatColor.GREEN + "======================================");
+					sender.sendMessage(mainHelpPage);
 				}
 			} else {
-				sender.sendMessage(ChatColor.GREEN + "==========[ Electric Floor ]==========");
-				sender.sendMessage(ChatColor.AQUA + "/ef        - Ez az oldal");
-				sender.sendMessage(ChatColor.AQUA + "/ef reload - Konfig �jrat�lt�se");
-				sender.sendMessage(ChatColor.AQUA + "/ef debug  - Debug m�d");
-				sender.sendMessage(ChatColor.AQUA + "/event     - Event ir�ny�t�sa");
-				sender.sendMessage(ChatColor.GREEN + "======================================");
+				sender.sendMessage(mainHelpPage);
 			}
 		} else {
 			//kliens
 			Player player = (Player) sender;
-			
-			Logger logger = Logger.getLogger("Minecraft");
-			
 			if (args.length == 0) {
 				//help page
-				if (player.hasPermission("electricfloor.admin") || player.hasPermission("electricfloor.settings") || player.hasPermission("electricfloor.event")) {
-					player.sendMessage(" ");
-					player.sendMessage(" ");
-					player.sendMessage(" ");
-					player.sendMessage(ChatColor.GREEN + "============" + ChatColor.AQUA +"[ Electric Floor ]" + ChatColor.GREEN + "============");
-					player.sendMessage(ChatColor.AQUA + "/ef        - Ez az oldal");
-					player.sendMessage(ChatColor.AQUA + "/ef reload - Konfig �jrat�lt�se");
-					sender.sendMessage(ChatColor.AQUA + "/ef debug  - Debug m�d");
-					player.sendMessage(ChatColor.AQUA + "/ef set    - Kofigur�l�si f�oldal");
-					player.sendMessage(ChatColor.AQUA + "/event     - Event ir�ny�t�sa");
-					player.sendMessage(ChatColor.GREEN + "======================================");
-				} else {//player perm
-					player.sendMessage(" ");
-					player.sendMessage(" ");
-					player.sendMessage(" ");
-					player.sendMessage(ChatColor.GREEN + "============" + ChatColor.AQUA +"[ Electric Floor ]" + ChatColor.GREEN + "============");
-					player.sendMessage(ChatColor.AQUA + "/ef        - Ez az oldal");
-					player.sendMessage(ChatColor.AQUA + "/event     - Event lehet�s�gek");
-					player.sendMessage(ChatColor.GREEN + "======================================");
+				if (PermissionHelper.fullMenuHelp(player)) {
+					player.sendMessage(preLines);
+					player.sendMessage(mainHelpPage);
+				} else if (PermissionHelper.playerMenuHelp(player)) {
+					player.sendMessage(preLines);
+					player.sendMessage(playerHelpPage);
 				}
 			} else {
 				if (args.length == 1) { //alap szelektorok
-					if (player.hasPermission("electricfloor.settings") || player.hasPermission("electricfloor.admin")) {
+					if (PermissionHelper.canSet(player) || PermissionHelper.canReload(player)) {
 						if (args[0].equalsIgnoreCase("set")) {
 							//set help
-							player.sendMessage(" ");
-							player.sendMessage(" ");
-							player.sendMessage(" ");
-							player.sendMessage(ChatColor.GREEN + "=============�b[ Electric Floor ]�a=============");
-							player.sendMessage(ChatColor.AQUA + "/ef set spawn - Spawn be�ll�t�sa �cNem k�telez�!");
-							player.sendMessage(ChatColor.AQUA + "/ef set start - Start hely�nek be�ll�t�sa");
-							player.sendMessage(ChatColor.AQUA + "/ef set wait  - V�r� be�ll�t�sa");
-							player.sendMessage(ChatColor.AQUA + "/ef set arena - Ar�na be�ll�t�sa");
-							player.sendMessage(ChatColor.AQUA + "/ef set loss  - Kiesettek hely�nek be�ll�t�sa");
-							player.sendMessage(ChatColor.AQUA + "/ef set win1  - Els� hely be�ll�t�sa");
-							player.sendMessage(ChatColor.AQUA + "/ef set win2  - M�sodik hely be�ll�t�sa");
-							player.sendMessage(ChatColor.AQUA + "/ef set win3  - Harmadik hely be�ll�t�sa");
-							player.sendMessage(ChatColor.GREEN + "=======================================");
+							player.sendMessage(preLines);
+							player.sendMessage(setterHelpPage);
 						}
 						
 						if (args[0].equalsIgnoreCase("reload")) {
-							if (player.hasPermission("electricfloor.reload")) {
-								eLog.log(LogLevel.INFO, player.getName() + " �jraind�tja a plugint!");
-								eLog.log(LogLevel.INFO, "�jraind�t�s...");
+							if (PermissionHelper.canReload(player)) {
+								eLog.log(LogLevel.INFO, player.getName() + " restared the plugin!");
+								eLog.log(LogLevel.INFO, "Restarting...");
 								ElectricFloor.isRestart = true;
-								player.sendMessage(main.chatPrefix + "Reload...");
+								player.sendMessage(ElectricFloor.chatPrefix + "Reload...");
 								plugin.saveConfig();
 								plugin.reloadConfig();
 								Bukkit.getServer().getPluginManager().disablePlugin(plugin);
 								Bukkit.getServer().getPluginManager().enablePlugin(plugin);
-								player.sendMessage(main.chatPrefix + "Sikeres reload!");
-								eLog.log(LogLevel.INFO, "Sikeres �jraind�t�s!");
+								player.sendMessage(ElectricFloor.chatPrefix + "Successful reload!");
+								eLog.log(LogLevel.INFO, "Successful reload!");
 								ElectricFloor.isRestart = false;
 							}
 						}
@@ -137,231 +122,14 @@ public class EfCommand implements CommandExecutor {
 							//debugCmd(sender, cmd, commandLabel, args);
 						}
 					} else {//player perm
-						player.sendMessage(" ");
-						player.sendMessage(" ");
-						player.sendMessage(" ");
-						player.sendMessage(ChatColor.GREEN + "============" + ChatColor.AQUA +"[ Electric Floor ]" + ChatColor.GREEN + "============");
-						player.sendMessage(ChatColor.AQUA + "/ef        - Ez az oldal");
-						player.sendMessage(ChatColor.AQUA + "/event     - Event lehet�s�gek");
-						player.sendMessage(ChatColor.GREEN + "======================================");
+						player.sendMessage(preLines);
+						player.sendMessage(playerHelpPage);
 					}
 				}
 				
 				if (args.length == 2) {
 					if (args[0].equalsIgnoreCase("set")) {
-						if (player.hasPermission("electricfloor.admin") || player.hasPermission("electricfloor.settings") || player.hasPermission("electricfloor.set.wait") || player.hasPermission("electricfloor.set.loss") || player.hasPermission("electricfloor.set.start") || player.hasPermission("electricfloor.set.spawn") || player.hasPermission("electricfloor.set.win1") || player.hasPermission("electricfloor.set.win2") || player.hasPermission("electricfloor.set.win3")) {
-							if (args[1].equalsIgnoreCase("lobby")) {
-								if (player.hasPermission("electricfloor.admin") || player.hasPermission("electricfloor.settings") || player.hasPermission("electricfloor.set.wait")) {
-									Location loc = player.getLocation();
-									
-									double x = loc.getX();
-									double y = loc.getY();
-									double z = loc.getZ();
-									float pitchF = loc.getPitch();
-									float yawF = loc.getYaw();
-									
-									double yaw = (double) yawF;
-									double pitch = (double) pitchF;
-									
-									plugin.getConfig().set("positions.lobby.X", x);
-									plugin.getConfig().set("positions.lobby.Y", y);
-									plugin.getConfig().set("positions.lobby.Z", z);
-									plugin.getConfig().set("positions.lobby.pitch", pitch);
-									plugin.getConfig().set("positions.lobby.yaw", yaw);
-									plugin.getConfig().set("positions.lobby.world", player.getLocation().getWorld().getName());
-									plugin.saveConfig();
-									
-									player.sendMessage(main.chatPrefix + "�6Sikeresen be�ll�tottad ezt a helyet: " + args[1]);
-									
-									logger.info("[ElectricFloor]" + player.getName() + " Sikeresen v�grehajtotta ezt: " + commandLabel + " " + args[0] + " " + args[1]);
-								} else {
-									player.sendMessage(ElectricFloor.warnPrefix + "�cNincs jogod a parancs haszn�lat�ra!");
-								}
-							} else if (args[1].equalsIgnoreCase("spawn")) {
-								if (player.hasPermission("electricfloor.admin") || player.hasPermission("electricfloor.settings") || player.hasPermission("electricfloor.set.spawn")) {
-									Location loc = player.getLocation();
-									
-									double x = loc.getX();
-									double y = loc.getY();
-									double z = loc.getZ();
-									float pitchF = loc.getPitch();
-									float yawF = loc.getYaw();
-									
-									double yaw = (double) yawF;
-									double pitch = (double) pitchF;
-									
-									plugin.getConfig().set("positions.spawn.X", x);
-									plugin.getConfig().set("positions.spawn.Y", y);
-									plugin.getConfig().set("positions.spawn.Z", z);
-									plugin.getConfig().set("positions.spawn.pitch", pitch);
-									plugin.getConfig().set("positions.spawn.yaw", yaw);
-									plugin.getConfig().set("positions.spawn.world", player.getLocation().getWorld().getName());
-									plugin.saveConfig();
-									
-									player.sendMessage(main.chatPrefix + "�6Sikeresen be�ll�tottad ezt a helyet: " + args[1]);
-									
-									logger.info("[ElectricFloor]" + player.getName() + " Sikeresen v�grehajtotta ezt: " + commandLabel + " " + args[0] + " " + args[1]);
-								} else {
-									player.sendMessage(ElectricFloor.warnPrefix + "�cNincs jogod a parancs haszn�lat�ra!");
-								}
-								
-							} else if (args[1].equalsIgnoreCase("arena")) {
-								if (player.hasPermission("electricfloor.admin") || player.hasPermission("electricfloor.settings") || player.hasPermission("electricfloor.set.arena")) {
-									Utils.arenaSet(Event.sel1, Event.sel2, player, false);									
-									
-									player.sendMessage(main.chatPrefix + "�6Sikeresen be�ll�tottad ezt a helyet: " + args[1]);
-									
-									logger.info("[ElectricFloor]" + player.getName() + " Sikeresen v�grehajtotta ezt: " + commandLabel + " " + args[0] + " " + args[1]);
-								} else {
-									player.sendMessage(ElectricFloor.warnPrefix + "�cNincs jogod a parancs haszn�lat�ra!");
-								}
-								
-							} else if (args[1].equalsIgnoreCase("lost")) {
-								if (player.hasPermission("electricfloor.admin") || player.hasPermission("electricfloor.settings") || player.hasPermission("electricfloor.set.loss")) {
-									Location loc = player.getLocation();
-									
-									double x = loc.getX();
-									double y = loc.getY();
-									double z = loc.getZ();
-									float pitchF = loc.getPitch();
-									float yawF = loc.getYaw();
-									
-									double yaw = (double) yawF;
-									double pitch = (double) pitchF;
-									
-									plugin.getConfig().set("positions.lost.X", x);
-									plugin.getConfig().set("positions.lost.Y", y);
-									plugin.getConfig().set("positions.lost.Z", z);
-									plugin.getConfig().set("positions.lost.pitch", pitch);
-									plugin.getConfig().set("positions.lost.yaw", yaw);
-									plugin.getConfig().set("positions.lost.world", player.getLocation().getWorld().getName());
-									plugin.saveConfig();
-									
-									player.sendMessage(main.chatPrefix + "�6Sikeresen be�ll�tottad ezt a helyet: " + args[1]);
-									
-									logger.info("[ElectricFloor]" + player.getName() + " Sikeresen v�grehajtotta ezt: " + commandLabel + " " + args[0] + " " + args[1]);
-								} else {
-									player.sendMessage(ElectricFloor.warnPrefix + "�cNincs jogod a parancs haszn�lat�ra!");
-								}
-								
-							} else if (args[1].equalsIgnoreCase("win1")) {
-								if (player.hasPermission("electricfloor.admin") || player.hasPermission("electricfloor.settings") || player.hasPermission("electricfloor.set.win1")) {
-									Location loc = player.getLocation();
-									
-									double x = loc.getX();
-									double y = loc.getY();
-									double z = loc.getZ();
-									float pitchF = loc.getPitch();
-									float yawF = loc.getYaw();
-									
-									double yaw = (double) yawF;
-									double pitch = (double) pitchF;
-									
-									plugin.getConfig().set("positions.win1.X", x);
-									plugin.getConfig().set("positions.win1.Y", y);
-									plugin.getConfig().set("positions.win1.Z", z);
-									plugin.getConfig().set("positions.win1.pitch", pitch);
-									plugin.getConfig().set("positions.win1.yaw", yaw);
-									plugin.getConfig().set("positions.win1.world", player.getLocation().getWorld().getName());
-									plugin.saveConfig();
-									
-									player.sendMessage(main.chatPrefix + "�6Sikeresen be�ll�tottad ezt a helyet: " + args[1]);
-									
-									logger.info("[ElectricFloor]" + player.getName() + " Sikeresen v�grehajtotta ezt: " + commandLabel + " " + args[0] + " " + args[1]);
-								} else {
-									player.sendMessage(ElectricFloor.warnPrefix + "�cNincs jogod a parancs haszn�lat�ra!");
-								}
-								
-							} else if (args[1].equalsIgnoreCase("win2")) {
-								if (player.hasPermission("electricfloor.admin") || player.hasPermission("electricfloor.settings") || player.hasPermission("electricfloor.set.win2")) {
-									Location loc = player.getLocation();
-									
-									double x = loc.getX();
-									double y = loc.getY();
-									double z = loc.getZ();
-									float pitchF = loc.getPitch();
-									float yawF = loc.getYaw();
-									
-									double yaw = (double) yawF;
-									double pitch = (double) pitchF;
-									
-									plugin.getConfig().set("positions.win2.X", x);
-									plugin.getConfig().set("positions.win2.Y", y);
-									plugin.getConfig().set("positions.win2.Z", z);
-									plugin.getConfig().set("positions.win2.pitch", pitch);
-									plugin.getConfig().set("positions.win2.yaw", yaw);
-									plugin.getConfig().set("positions.win2.world", player.getLocation().getWorld().getName());
-									plugin.saveConfig();
-									
-									player.sendMessage(main.chatPrefix + "�6Sikeresen be�ll�tottad ezt a helyet: " + args[1]);
-									
-									logger.info("[ElectricFloor]" + player.getName() + " Sikeresen v�grehajtotta ezt: " + commandLabel + " " + args[0] + " " + args[1]);
-								} else {
-									player.sendMessage(ElectricFloor.warnPrefix + "�cNincs jogod a parancs haszn�lat�ra!");
-								}
-								
-							} else if (args[1].equalsIgnoreCase("win3")) {
-								if (player.hasPermission("electricfloor.admin") || player.hasPermission("electricfloor.settings") || player.hasPermission("electricfloor.set.win3")) {
-									Location loc = player.getLocation();
-									
-									double x = loc.getX();
-									double y = loc.getY();
-									double z = loc.getZ();
-									float pitchF = loc.getPitch();
-									float yawF = loc.getYaw();
-									
-									double yaw = (double) yawF;
-									double pitch = (double) pitchF;
-									
-									plugin.getConfig().set("positions.win3.X", x);
-									plugin.getConfig().set("positions.win3.Y", y);
-									plugin.getConfig().set("positions.win3.Z", z);
-									plugin.getConfig().set("positions.win3.pitch", pitch);
-									plugin.getConfig().set("positions.win3.yaw", yaw);
-									plugin.getConfig().set("positions.win3.world", player.getLocation().getWorld().getName());
-									plugin.saveConfig();
-									
-									player.sendMessage(main.chatPrefix + "�6Sikeresen be�ll�tottad ezt a helyet: " + args[1]);
-									
-									logger.info("[ElectricFloor]" + player.getName() + " Sikeresen v�grehajtotta ezt: " + commandLabel + " " + args[0] + " " + args[1]);
-								} else {
-									player.sendMessage(ElectricFloor.warnPrefix + "�cNincs jogod a parancs haszn�lat�ra!");
-								}
-								
-							} else if (args[1].equalsIgnoreCase("start")) {
-								if (player.hasPermission("electricfloor.admin") || player.hasPermission("electricfloor.settings") || player.hasPermission("electricfloor.set.start")) {
-									Location loc = player.getLocation();
-									
-									double x = loc.getX();
-									double y = loc.getY();
-									double z = loc.getZ();
-									float pitchF = loc.getPitch();
-									float yawF = loc.getYaw();
-									
-									double yaw = (double) yawF;
-									double pitch = (double) pitchF;
-									
-									plugin.getConfig().set("positions.start.X", x);
-									plugin.getConfig().set("positions.start.Y", y);
-									plugin.getConfig().set("positions.start.Z", z);
-									plugin.getConfig().set("positions.start.pitch", pitch);
-									plugin.getConfig().set("positions.start.yaw", yaw);
-									plugin.getConfig().set("positions.start.world", player.getLocation().getWorld().getName());
-									plugin.saveConfig();
-									
-									player.sendMessage(main.chatPrefix + "�6Sikeresen be�ll�tottad ezt a helyet: " + args[1]);
-									
-									logger.info("[ElectricFloor]" + player.getName() + " Sikeresen v�grehajtotta ezt: " + commandLabel + " " + args[0] + " " + args[1]);
-								} else {
-									player.sendMessage(ElectricFloor.warnPrefix + "�cNincs jogod a parancs haszn�lat�ra!");
-								}
-								
-							} else {
-								player.sendMessage(ElectricFloor.warnPrefix + "�cHelytelen haszn�lat!\n" + ElectricFloor.warnPrefix + "�cLehets�ges helyek: win1, win2, win3, arena, wait, loss, spawn, start");
-							}
-						} else {
-							player.sendMessage(ElectricFloor.warnPrefix + "�cNincs jogod a parancs haszn�lat�ra!");
-						}
+						
 					}
 				}
 			}

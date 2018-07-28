@@ -15,8 +15,8 @@ import org.bukkit.plugin.Plugin;
 import com.google.common.annotations.Beta;
 
 import me.electricfloor.error.ElectricError;
-import me.electricfloor.file.logging.LogLevel;
-import me.electricfloor.file.logging.ELogger;
+import me.electricfloor.file.ELogger;
+import me.electricfloor.file.LogLevel;
 import me.electricfloor.main.ElectricFloor;
 
 @Beta
@@ -27,13 +27,14 @@ public class Language {
 	
 	private Plugin plugin = ElectricFloor.getPlugin();
 	
-	private String lang = plugin.getConfig().getString("language");
+	private String lang = "en";
 	
 	public ELogger eLog = ElectricFloor.getELogger();
 	
 	private Logger logger = Logger.getLogger("Minecraft");
 
 	public void setupLanguage() {
+		lang = ElectricFloor.manager.getConfig(ElectricFloor.MAIN_CONFIG).getString("language", "en");
 		extract();
 		loadCurrentAndDefault();
 	}

@@ -18,8 +18,8 @@ import me.electricfloor.Language.Language;
 import me.electricfloor.NMSimplement.NMSimplement;
 import me.electricfloor.event.Event;
 import me.electricfloor.event.EventGroup;
-import me.electricfloor.file.logging.LogLevel;
-import me.electricfloor.file.logging.ELogger;
+import me.electricfloor.file.ELogger;
+import me.electricfloor.file.LogLevel;
 
 public class EventCommand implements CommandExecutor {
 	

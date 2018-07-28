@@ -20,9 +20,12 @@ import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 import com.sk89q.worldedit.bukkit.selections.Selection;
 
 import me.electricfloor.event.Event;
-import me.electricfloor.file.logging.LogLevel;
+import me.electricfloor.file.ELogger;
+import me.electricfloor.file.LogLevel;
 
 public class Utils {
+	
+	private static ELogger elog = ElectricFloor.getELogger();
 
 	public static void arenaSet(Location loc, Location loc2, Player player, boolean callback) {
 		int x1 = 0;
@@ -51,12 +54,12 @@ public class Utils {
 						world = loc.getWorld();
 					} else {
 						player.sendMessage(ElectricFloor.warnPrefix + "�cAz ar�na mindk�t pontj�nak ugyanazon vil�gban kell lennie");
-						ElectricFloor.eLogger.log(LogLevel.WARNING, "ArenaSet: " + player.getName() + " k�l�nb�z� vil�gokba rakta az ar�na k�t pontj�t");
+						elog.log(LogLevel.WARNING, "ArenaSet: " + player.getName() + " k�l�nb�z� vil�gokba rakta az ar�na k�t pontj�t");
 						return;
 					}
 				} else {
 					player.sendMessage(ElectricFloor.warnPrefix + ChatColor.RED + "A kijel�l�s nem lehet null!");
-					ElectricFloor.eLogger.log(LogLevel.WARNING, "ArenaSet: " + player.getName() + " kijel�l�s n�lk�l akart ar�n�t csin�lni");
+					elog.log(LogLevel.WARNING, "ArenaSet: " + player.getName() + " kijel�l�s n�lk�l akart ar�n�t csin�lni");
 					return;
 				}
 			} else {//with worldedit
@@ -64,7 +67,7 @@ public class Utils {
 				Selection selection = we.getSelection(player);
 				if (selection == null) {
 					player.sendMessage(ElectricFloor.warnPrefix + ChatColor.RED + "A kijel�l�s nem lehet null!");
-					ElectricFloor.eLogger.log(LogLevel.WARNING, "ArenaSet: " + player.getName() + " kijel�l�s n�lk�l akart ar�n�t csin�lni");
+					elog.log(LogLevel.WARNING, "ArenaSet: " + player.getName() + " kijel�l�s n�lk�l akart ar�n�t csin�lni");
 					return;
 				} else {
 					Event.sel1 = selection.getMinimumPoint();
@@ -82,7 +85,7 @@ public class Utils {
 						world = Event.sel1.getWorld();
 					} else {
 						ElectricFloor.logger.warning("[ElectricFloor] Az ar�na mindk�t pontj�nak ugyanazon vil�gban kell lennie");
-						ElectricFloor.eLogger.log(LogLevel.WARNING, "ArenaSet: " + player.getName() + " k�l�nb�z� vil�gokba rakta az ar�na k�t pontj�t");
+						elog.log(LogLevel.WARNING, "ArenaSet: " + player.getName() + " k�l�nb�z� vil�gokba rakta az ar�na k�t pontj�t");
 						return;
 					}
 					
@@ -95,7 +98,7 @@ public class Utils {
 						z2 = maxZ;
 					} else {
 						player.sendMessage(ElectricFloor.warnPrefix + ChatColor.RED + "A kijel�l�s csak egy szintes lehet!");
-						ElectricFloor.eLogger.log(LogLevel.WARNING, "ArenaSet: " + player.getName() + " nem egyszint� kijel�l�ssel akart ar�n�t k�sz�teni");
+						elog.log(LogLevel.WARNING, "ArenaSet: " + player.getName() + " nem egyszint� kijel�l�ssel akart ar�n�t k�sz�teni");
 						return;
 					}
 				}
@@ -119,7 +122,7 @@ public class Utils {
 			
 			if (loc0 == null || loc1 == null) {
 				ElectricFloor.logger.warning("[ElectricFloor] Nem l�tezik a configban megadott poz�ci� az ar�n�hoz!");
-				ElectricFloor.eLogger.log(LogLevel.CRITICAL, "ArenaSet: a kor�bban t�rolt poz�ci� nem l�tezik a configban!");
+				elog.log(LogLevel.CRITICAL, "ArenaSet: a kor�bban t�rolt poz�ci� nem l�tezik a configban!");
 				return;
 			}
 			
@@ -227,7 +230,7 @@ public class Utils {
 	}
 
 	public static boolean eventReady(Plugin plugin) {
-		ElectricFloor.eLogger.log(LogLevel.INFO, "Event ellen�rz�se kezd�dik");
+		elog.log(LogLevel.INFO, "Event ellen�rz�se kezd�dik");
 		int checker = 0;
 		ArrayList<String> names = new ArrayList<String>();
 		names.add("wait");
@@ -278,10 +281,10 @@ public class Utils {
 		}
 		
 		if (checker == 50) {
-			ElectricFloor.eLogger.log(LogLevel.INFO, "Az event haszn�latra k�sz!");
+			elog.log(LogLevel.INFO, "Az event haszn�latra k�sz!");
 			return true;
 		} else {
-			ElectricFloor.eLogger.log(LogLevel.WARNING, "Az event nics be�ll�tva!");
+			elog.log(LogLevel.WARNING, "Az event nics be�ll�tva!");
 			ElectricFloor.logger.warning("[ElectricFloor] Hiba van a configban, az eventet nem lehet elind�tani!");
 			return false;
 		}

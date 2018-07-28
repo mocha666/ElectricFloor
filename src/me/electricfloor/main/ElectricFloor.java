@@ -19,24 +19,23 @@ import me.electricfloor.NMSimplement.versions.NMS_1_8_R2;
 import me.electricfloor.NMSimplement.versions.NMS_1_8_R3;
 import me.electricfloor.NMSimplement.versions.NMS_1_9_R1;
 import me.electricfloor.NMSimplement.versions.NMS_1_9_R2;
-import me.electricfloor.debug.Debug;
+import me.electricfloor.config.ConfigManager;
 import me.electricfloor.event.Event;
 import me.electricfloor.event.EventGroup;
-import me.electricfloor.file.logging.ELogger;
-import me.electricfloor.file.logging.LogLevel;
-import me.electricfloor.helpers.ConfigManager;
+import me.electricfloor.file.ELogger;
+import me.electricfloor.file.LogLevel;
 
 public class ElectricFloor extends JavaPlugin implements Listener {
 	static Logger logger;
-	public static ELogger eLogger;
+	private static ELogger eLogger;
 	public static boolean useWorldEdit;
 	public static String chatPrefix;
 	public static String warnPrefix;
-	public static String serverVersion;
+	private String serverVersion;
 	public static PluginDescriptionFile pdfile;
 	public static boolean isRestart;
 	
-	public static ConfigManager configManager = new ConfigManager();
+	public static ConfigManager manager = new ConfigManager();
 	
 	private static ElectricFloor instance;
 	private static Listeners listeners;
@@ -44,12 +43,19 @@ public class ElectricFloor extends JavaPlugin implements Listener {
 	//TODO: logging
 	private static Language l;
 	
+	public static final String MAIN_CONFIG = "mainConfig";
+	
 	Plugin plugin = this;
 	
 	public void onEnable() {
 		initVariables();
 		eLogger.createLogFile(isRestart);
-		eLogger.log(LogLevel.INFO, "Plugin indátása...");
+		eLogger.info("Starting plugin...");
+		
+		if (manager.getConfig(MAIN_CONFIG) == null) {
+			manager.createConfig(MAIN_CONFIG);
+			manager.reloadConfig(MAIN_CONFIG);
+		}
 		
 		setupNMS();
 		setupEconomy();
@@ -65,15 +71,18 @@ public class ElectricFloor extends JavaPlugin implements Listener {
 		l.setupLanguage();
 		
 		logger.info("[" + pdfile.getName() + "]" + " (V." + pdfile.getVersion() + ") Enabled!");
-		eLogger.log(LogLevel.INFO, "Plugin successfully started!");
-		if (this.getConfig().getBoolean("motd")) {
-			eLogger.log(LogLevel.INFO, "If you want to disable motd, set it false in mainConfig.yml");
+		
+		logger.severe("[ElectricFloor] This version is not working. Just as you can see. Not buggy version, NOT WORKING. Changes are in progress.");
+		
+		eLogger.info("Plugin successfully started!");
+		if (manager.getConfig(MAIN_CONFIG).getBoolean("motd")) {
+			eLogger.info("If you want to disable motd, set it false in mainConfig.yml");
 		}
 		
-		Event.teleportRadius = getConfig().getInt("teleportRadius", 5);
+		Event.teleportRadius = manager.getConfig(MAIN_CONFIG).getInt("teleportRadius", 5);
 		
-		chatPrefix = getConfig().getString("messages.prefix", "§b[§eElectricFloor§b]§r ");
-		warnPrefix = getConfig().getString("messages.warnprefix","§a[§2ElectricFloor§a]§r ");
+		chatPrefix = manager.getConfig(MAIN_CONFIG).getString("messages.prefix", "§b[§eElectricFloor§b]§r ");
+		warnPrefix = manager.getConfig(MAIN_CONFIG).getString("messages.warnprefix","§a[§2ElectricFloor§a]§r ");
 		
 		if (Bukkit.getOnlinePlayers().size() != 0) {
 			eLogger.log(LogLevel.CRITICAL, "It seems ElectricFloor plugin has been reloaded, with an other plugin, or with /reload command. Please try to avoid this");
@@ -89,7 +98,7 @@ public class ElectricFloor extends JavaPlugin implements Listener {
 	}
 	
 	public void onDisable() {
-		eLogger.log(LogLevel.INFO, "Disabling...");
+		eLogger.info("Disabling...");
 		Event.eventReadyTo = false;
 		Event.eventBroadcasted = false;
 		
@@ -100,16 +109,17 @@ public class ElectricFloor extends JavaPlugin implements Listener {
 		//reset arena
 		Utils.arenaSet(null, null, null, true);
 		
-		logger.info("[" + pdfile.getName() + "]" + " (V." + pdfile.getVersion() + ") Kikapcsolva!");
-		eLogger.log(LogLevel.INFO, "Plugin kikapcsolva!");
+		logger.info("[" + pdfile.getName() + "]" + " (V." + pdfile.getVersion() + ") Disabled!");
+		eLogger.info("Plugin disabled!");
+		Runtime.getRuntime().gc();
 	}
 	
 	private void setupNMS() {
 		 String ver;
 		try {
 
-	            serverVersion = Bukkit.getServer().getClass().getPackage().getName().replace(".",  ",").split(",")[3];
-	            ver = Bukkit.getServer().getBukkitVersion().toString();
+	            serverVersion = getServer().getClass().getPackage().getName().replace(".",  ",").split(",")[3];
+	            ver = getServer().getBukkitVersion().toString();
 
 	        } catch (ArrayIndexOutOfBoundsException e) {
 	            eLogger.logException(e, "Failed to resolve the NMS version!");
@@ -118,26 +128,26 @@ public class ElectricFloor extends JavaPlugin implements Listener {
 
 	        if (serverVersion.equals("v1_8_R2")) {
 	        	implement = new NMS_1_8_R2();
-	        	eLogger.log(LogLevel.INFO, "The plugin is compatible with wersion " + ver);
+	        	eLogger.info("The plugin is compatible with wersion " + ver);
 	        	
 	        } else if (serverVersion.equals("v1_8_R3")) {
 	        	implement = new NMS_1_8_R3();
-	        	eLogger.log(LogLevel.INFO, "The plugin is compatible with wersion " + ver);
+	        	eLogger.info("The plugin is compatible with wersion " + ver);
 	        } else if (serverVersion.equals("v1_9_R1")) {
 	        	implement = new NMS_1_9_R1();
-	        	eLogger.log(LogLevel.INFO, "The plugin is compatible with wersion " + ver);
+	        	eLogger.info("The plugin is compatible with wersion " + ver);
 	        } else if (serverVersion.equals("v1_9_R2")) {
 	        	implement = new NMS_1_9_R2();
-	        	eLogger.log(LogLevel.INFO, "The plugin is compatible with wersion " + ver);
+	        	eLogger.info("The plugin is compatible with wersion " + ver);
 	        } else if (serverVersion.equals("v1_10_R1")) {
 	        	implement = new NMS_1_10_R1();
-	        	eLogger.log(LogLevel.INFO, "The plugin is compatible with wersion " + ver);
+	        	eLogger.info("The plugin is compatible with wersion " + ver);
 	        } else if (serverVersion.equals("v1_11_R1")) {
 	        	implement = new NMS_1_11_R1();
-	        	eLogger.log(LogLevel.INFO, "The plugin is compatible with wersion " + ver);
+	        	eLogger.info("The plugin is compatible with wersion " + ver);
 	        } else if (serverVersion.equals("v1_12_R1")) {
 	        	implement = new NMS_1_12_R1();
-	        	eLogger.log(LogLevel.INFO, "The plugin is compatible with wersion " + ver);
+	        	eLogger.info("The plugin is compatible with wersion " + ver);
 	        }
 	        
 	        if (implement == null || ver.equalsIgnoreCase("undefinied")) {
@@ -154,7 +164,7 @@ public class ElectricFloor extends JavaPlugin implements Listener {
 			logger.severe("[ElectricFloor] Can't find Essentials, disabling");
 			getServer().getPluginManager().disablePlugin(this);
         } else {
-        	eLogger.log(LogLevel.INFO, "Essentials found!");
+        	eLogger.info("Essentials found!");
         }
 	}
 	
@@ -195,10 +205,10 @@ public class ElectricFloor extends JavaPlugin implements Listener {
 	private void setupWorldEdit() {
 		if (Bukkit.getServer().getPluginManager().getPlugin("WorldEdit") == null) {
 			useWorldEdit = false;
-			eLogger.log(LogLevel.INFO, "Unable to find WorldEdit, now using own implement");
+			eLogger.info("Unable to find WorldEdit, now using own implementation");
 		} else {
 			useWorldEdit = true;
-			eLogger.log(LogLevel.INFO, "Successfully hooked into WorldEdit");
+			eLogger.info("Successfully hooked into WorldEdit");
 		}
 	}
 	

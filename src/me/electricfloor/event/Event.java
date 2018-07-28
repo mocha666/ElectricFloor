@@ -21,8 +21,9 @@ import com.earth2me.essentials.api.Economy;
 import me.electricfloor.NMSimplement.NMSimplement;
 import me.electricfloor.NMSimplement.TitleColor;
 import me.electricfloor.NMSimplement.TitleStyle;
-import me.electricfloor.file.logging.ELogger;
-import me.electricfloor.file.logging.LogLevel;
+import me.electricfloor.arena.ArenaManager;
+import me.electricfloor.file.ELogger;
+import me.electricfloor.file.LogLevel;
 import me.electricfloor.main.ElectricFloor;
 import me.electricfloor.main.Utils;
 
@@ -50,6 +51,7 @@ public class Event {
 	public static HashMap<String, StoredPlayer> storedPlayers = new HashMap<String, StoredPlayer>();
 	
 	private static BlockManager blockManager = new BlockManager();
+	public static ArenaManager arenaManager = new ArenaManager();
 	
 	/**
 	 * Called from PlayerMoveEvent

@@ -5,8 +5,8 @@ import java.util.HashMap;
 import org.bukkit.entity.Player;
 
 import me.electricfloor.error.ElectricError;
-import me.electricfloor.file.logging.LogLevel;
-import me.electricfloor.file.logging.ELogger;
+import me.electricfloor.file.ELogger;
+import me.electricfloor.file.LogLevel;
 import me.electricfloor.main.ElectricFloor;
 
 /**

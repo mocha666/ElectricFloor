@@ -25,6 +25,10 @@ public class ConfigManager {
 	public HashMap<String, LinkedConfig> configurations = new HashMap<String, LinkedConfig>();
 	
 	public LinkedConfig createConfig(String name) {
+		return createConfig(name, ConfigType.GENERAL);
+	}
+	
+	public LinkedConfig createConfig(String name, ConfigType type) {
 		if (configurations.containsKey(name)) {
 			logger.error(name + " config already exist!");
 			return configurations.get(name);
@@ -35,11 +39,31 @@ public class ConfigManager {
 			} else {
 				cf = new File(ElectricFloor.getPlugin().getDataFolder() + "/configurations", name + ".yml");
 			}
+			
+			if (!cf.exists())
+				try {
+					cf.createNewFile();
+				} catch (IOException e) {
+					// catch exception
+					e.printStackTrace();
+				}
+			
 			YamlConfiguration config = YamlConfiguration.loadConfiguration(cf);
-			LinkedConfig c = new LinkedConfig(config, cf);
+			LinkedConfig c = new LinkedConfig(config, cf, type);
+			
+			config.addDefault("configType", type);
 			
 			configurations.put(name, c);
 			return c;
+		}
+	}
+	
+	public void deleteConfig(String name) {
+		if (configurations.containsKey(name)) {
+			File f = configurations.get(name).configFile;
+			if (f.exists())
+				f.delete();
+			configurations.remove(name);
 		}
 	}
 	

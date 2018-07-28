@@ -1,4 +1,4 @@
-package me.electricfloor.file.logging;
+package me.electricfloor.file;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -53,7 +53,7 @@ public class ELogger extends YamlConfiguration {
 				} else {
 					error(msg);
 				}
-				if (ElectricFloor.configManager.getConfig("mainConfig").getBoolean("printStToConsole")) {
+				if (ElectricFloor.manager.getConfig("mainConfig").getBoolean("printStToConsole")) {
 					e.printStackTrace();
 				} else {
 					ElectricFloor.getNormalLogger().severe("[ElectricFloor] An Exception occured! If you want to know more, look at the log.txt");

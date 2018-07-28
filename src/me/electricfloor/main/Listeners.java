@@ -28,12 +28,11 @@ import me.electricfloor.Language.Language;
 import me.electricfloor.NPCmanagement.Manage;
 import me.electricfloor.event.Event;
 import me.electricfloor.event.EventGroup;
-import me.electricfloor.file.logging.LogLevel;
-import me.electricfloor.file.logging.ELogger;
+import me.electricfloor.file.ELogger;
+import me.electricfloor.file.LogLevel;
 
 public class Listeners implements Listener {
 	
-	private ElectricFloor main = ElectricFloor.getInstance();
 	private Plugin plugin = ElectricFloor.getPlugin();
 	private ELogger eLogger = ElectricFloor.getELogger();
 	//TODO: language in Listeners class
@@ -95,13 +94,13 @@ public class Listeners implements Listener {
 						Block block = event.getClickedBlock();
 						Event.sel1 = block.getLocation();
 						event.setCancelled(true);
-						player.sendMessage(main.chatPrefix + "Pos1 selected");
+						player.sendMessage(ElectricFloor.chatPrefix + "Pos1 selected");
 					}
 					
 					if (a == Action.RIGHT_CLICK_BLOCK && is.getType() == Material.WOOD_AXE) {
 						Block block = event.getClickedBlock();
 						Event.sel2 = block.getLocation();
-						player.sendMessage(main.chatPrefix + "Pos2 selected");
+						player.sendMessage(ElectricFloor.chatPrefix + "Pos2 selected");
 					}
 				}
 			}
@@ -117,6 +116,11 @@ public class Listeners implements Listener {
 		@EventHandler
 		public void onPlayerJoin(PlayerJoinEvent event) {
 			Player player = event.getPlayer();
+			
+			if (player.isOp()) {
+				player.sendMessage(ElectricFloor.chatPrefix + "§cThis version is not working. Just as you can see. Not buggy version, NOT WORKING. Changes are in progress.");
+			}
+			
 			if (EventGroup.isAppearSomewhere(player)) {
 				eLogger.log(LogLevel.CRITICAL, "Somehow " + player.getName() + " already registered at " + EventGroup.getPlayerGroup(player).toString());
 				player.kickPlayer("You are kicked due security reasons");

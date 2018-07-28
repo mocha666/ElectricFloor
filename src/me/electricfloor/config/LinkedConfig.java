@@ -1,4 +1,4 @@
-package me.electricfloor.helpers;
+package me.electricfloor.config;
 
 import java.io.File;
 
@@ -8,11 +8,16 @@ public class LinkedConfig {
 	
 	public YamlConfiguration configuration = null;
 	public File configFile = null;
+	public ConfigType type = ConfigType.GENERAL;
 	
-	
-	public LinkedConfig(YamlConfiguration configuration, File configFile) {
+	public LinkedConfig(YamlConfiguration configuration, File configFile, ConfigType type) {
 		this.configuration = configuration;
 		this.configFile = configFile;
+		this.type = type;
+	}
+	
+	public LinkedConfig(YamlConfiguration configuration, File configFile) {
+		this(configuration, configFile, ConfigType.GENERAL);
 	}
 
 	public YamlConfiguration getConfiguration() {

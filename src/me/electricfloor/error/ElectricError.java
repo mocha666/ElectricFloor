@@ -4,7 +4,7 @@ package me.electricfloor.error;
 public class ElectricError extends Error {
 	
 	/**
-	 * 
+	 * serialVersionUID
 	 */
 	private static final long serialVersionUID = 3771972976607247619L;
 

@@ -1,4 +1,4 @@
-package me.electricfloor.helpers;
+package me.electricfloor.file;
 
 import java.io.File;
 import java.io.FileOutputStream;

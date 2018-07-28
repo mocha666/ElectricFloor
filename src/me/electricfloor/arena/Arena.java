@@ -10,6 +10,7 @@ public class Arena {
 	public int minPlayers = 5;
 	
 	public boolean announced = false;
+	
 	public boolean autoStart = false;
 	
 	public ArenaState state = ArenaState.WAITING;
