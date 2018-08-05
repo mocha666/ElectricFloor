@@ -6,14 +6,14 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import me.electricfloor.arena.Arena;
 import me.electricfloor.arena.ArenaManager;
-import me.electricfloor.event.Event;
+import me.electricfloor.event.EventControl;
 
 public class AutoStarter {
 	
 	private ArrayList<Integer> tasks = new ArrayList<Integer>();
 	
 	public void startListening() {
-		ArenaManager manager = Event.arenaManager;
+		ArenaManager manager = EventControl.arenaManager;
 		for (Arena a : manager.arenas.values()) {
 			if (a.autoStart == true) {
 				//start

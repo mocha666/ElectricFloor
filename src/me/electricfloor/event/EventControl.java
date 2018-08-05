@@ -27,7 +27,7 @@ import me.electricfloor.file.LogLevel;
 import me.electricfloor.main.ElectricFloor;
 import me.electricfloor.main.Utils;
 
-public class Event {
+public class EventControl {
 	public static boolean eventReadyTo = false;
 	public static boolean eventBroadcasted = false;
 	public static Location sel1 = null;
@@ -70,8 +70,8 @@ public class Event {
 				
 				if (blockManager.isCharged(block)) {
 					eventFallout(player, plugin);
-					if (Event.eventPlayerCounter == 2) {
-						Event.eventPlayerCounter = 1;
+					if (EventControl.eventPlayerCounter == 2) {
+						EventControl.eventPlayerCounter = 1;
 						for (Player all : EventGroup.INGAME.map.values()) {
 							eventFallout(all, plugin);
 						}
@@ -90,24 +90,24 @@ public class Event {
 			}
 		}
 		
-		Event.eventPlayerCounter = ingame.size();
+		EventControl.eventPlayerCounter = ingame.size();
 		
-		if (Event.eventPlayerCounter > 3) {
+		if (EventControl.eventPlayerCounter > 3) {
 			player.sendMessage(ElectricFloor.chatPrefix + ChatColor.GOLD + "You died!");
 			player.removeMetadata("ingame", plugin);
 			player.setMetadata("loss", new FixedMetadataValue(plugin, "EF"));
 			Utils.teleportWithConfig(player, plugin, "loss", false);
 			
-			for (int i = 0; i < Event.eventPlayerCounter; i++) {
+			for (int i = 0; i < EventControl.eventPlayerCounter; i++) {
 				Player br = ingame.get(i);
 				
-				br.sendMessage(ElectricFloor.chatPrefix + player.getName() + " fell out! Players remaining: " + Event.eventPlayerCounter);
+				br.sendMessage(ElectricFloor.chatPrefix + player.getName() + " fell out! Players remaining: " + EventControl.eventPlayerCounter);
 			}
 			
-			eLogger.log(LogLevel.INFO, player.getName() + " fell out, players remaining: " + Event.eventPlayerCounter);
+			eLogger.log(LogLevel.INFO, player.getName() + " fell out, players remaining: " + EventControl.eventPlayerCounter);
 		}
 		
-		if (Event.eventPlayerCounter == 3) {
+		if (EventControl.eventPlayerCounter == 3) {
 			player.sendMessage(ElectricFloor.chatPrefix + ChatColor.GOLD + "You placed 3rd!");
 			player.removeMetadata("ingame", plugin);
 			player.setMetadata("win3", new FixedMetadataValue(plugin, "EF"));
@@ -119,15 +119,15 @@ public class Event {
 				}
 			}, 40L);
 			
-			for (int i = 0; i < Event.eventPlayerCounter; i++) {
+			for (int i = 0; i < EventControl.eventPlayerCounter; i++) {
 				Player br = ingame.get(i);
 				
-				br.sendMessage(ElectricFloor.chatPrefix + player.getName() + " fell out! Players remaining: " + Event.eventPlayerCounter);
+				br.sendMessage(ElectricFloor.chatPrefix + player.getName() + " fell out! Players remaining: " + EventControl.eventPlayerCounter);
 				eLogger.log(LogLevel.INFO, player.getName() + " fell out, and placed 3rd");
 			}
 		}
 		
-		if (Event.eventPlayerCounter == 2) {
+		if (EventControl.eventPlayerCounter == 2) {
 			player.sendMessage(ElectricFloor.chatPrefix + ChatColor.GOLD + "You placed 2nd!");
 			player.removeMetadata("ingame", plugin);
 			player.setMetadata("win2", new FixedMetadataValue(plugin, "EF"));
@@ -139,16 +139,16 @@ public class Event {
 				}
 			}, 40L);
 			
-			for (int i = 0; i < Event.eventPlayerCounter; i++) {
+			for (int i = 0; i < EventControl.eventPlayerCounter; i++) {
 				Player br = ingame.get(i);
 				
-				br.sendMessage(ElectricFloor.chatPrefix + player.getName() + " fell out! Players remaining: " + Event.eventPlayerCounter);
+				br.sendMessage(ElectricFloor.chatPrefix + player.getName() + " fell out! Players remaining: " + EventControl.eventPlayerCounter);
 				eLogger.log(LogLevel.INFO, player.getName() + " fell out, and placed 2rd");
 			}
 			
 		}
 		
-		if (Event.eventPlayerCounter == 1) {
+		if (EventControl.eventPlayerCounter == 1) {
 			player.sendMessage(ElectricFloor.chatPrefix + ChatColor.GOLD + "You placed 1st!");
 			player.removeMetadata("ingame", plugin);
 			player.setMetadata("win1", new FixedMetadataValue(plugin, "EF"));
@@ -280,7 +280,7 @@ public class Event {
 								all.sendMessage(ElectricFloor.chatPrefix + ChatColor.YELLOW + "Az event v�get �rt!");
 							}
 						}
-						Event.eventBroadcasted = false;
+						EventControl.eventBroadcasted = false;
 						Location effectLoc = Utils.teleportWithConfig(player, plugin, "spawn", true);
 					}
 				}, 240L);
@@ -300,7 +300,7 @@ public class Event {
 		if (!EventGroup.isInGroup(player, EventGroup.NOT_MARKED)) {
 			player.sendMessage(ElectricFloor.chatPrefix + "you already joined the event!");
 		} else {
-			if (Event.eventBroadcasted == true) {
+			if (EventControl.eventBroadcasted == true) {
 				eLogger.log(LogLevel.INFO, player.getName() + " joined the event");
 				EventGroup.movePlayerGroup(player, EventGroup.NOT_MARKED, EventGroup.LOBBY);
 				

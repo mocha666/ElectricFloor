@@ -18,13 +18,13 @@ import me.electricfloor.main.ElectricFloor;
  */
 public enum EventGroup {
 	
-	NOT_MARKED(Event.nm),
-	LOBBY(Event.lobby),
-	INGAME(Event.ingame),
-	WIN1(Event.win1),
-	WIN2(Event.win2),
-	WIN3(Event.win3),
-	LOST(Event.lost);
+	NOT_MARKED(EventControl.nm),
+	LOBBY(EventControl.lobby),
+	INGAME(EventControl.ingame),
+	WIN1(EventControl.win1),
+	WIN2(EventControl.win2),
+	WIN3(EventControl.win3),
+	LOST(EventControl.lost);
 	
 	public HashMap<String, Player> map = new HashMap<String, Player>();
 	

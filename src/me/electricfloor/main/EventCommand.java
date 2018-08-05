@@ -16,7 +16,7 @@ import org.bukkit.plugin.PluginDescriptionFile;
 
 import me.electricfloor.Language.Language;
 import me.electricfloor.NMSimplement.NMSimplement;
-import me.electricfloor.event.Event;
+import me.electricfloor.event.EventControl;
 import me.electricfloor.event.EventGroup;
 import me.electricfloor.file.ELogger;
 import me.electricfloor.file.LogLevel;
@@ -96,8 +96,8 @@ public class EventCommand implements CommandExecutor {
 						if (state == true) {
 							logger.info("[ELectricFloor] Az event használatra kész!");
 							eLog.log(LogLevel.INFO, player.getName() + " meghirdette az eventet!");
-							Event.eventReadyTo = true;
-							Event.eventBroadcasted = true;
+							EventControl.eventReadyTo = true;
+							EventControl.eventBroadcasted = true;
 							
 							for (Player onlineP : Bukkit.getOnlinePlayers()) {
 								implement.sendActionbar(onlineP, "&4&lElectricFloor event lesz! &c&lCsatlakozáshoz: &6&n&l/event join");
@@ -109,7 +109,7 @@ public class EventCommand implements CommandExecutor {
 							}
 						} else {
 							player.sendMessage(ElectricFloor.warnPrefix + "Â§cAz eventhez szükséges helyek közül egy vagy több nincs beállítva!");
-							Event.eventReadyTo = false;
+							EventControl.eventReadyTo = false;
 						}
 					} else {
 						player.sendMessage(ElectricFloor.warnPrefix + "Â§cNincs jogod a parancs használatára!");
@@ -119,8 +119,8 @@ public class EventCommand implements CommandExecutor {
 				
 				if (args[0].equalsIgnoreCase("start")) {
 					if (player.hasPermission("electricfloor.admin") || player.hasPermission("electricfloor.event") || player.hasPermission("electricfloor.event.start")) {
-						if (Event.eventBroadcasted == true) {
-							if (Event.eventReadyTo = true) {
+						if (EventControl.eventBroadcasted == true) {
+							if (EventControl.eventReadyTo = true) {
 								eLog.log(LogLevel.INFO, player.getName() + " elindította az eventet!");
 
 								for (Player all : Bukkit.getOnlinePlayers()) {	
@@ -133,17 +133,17 @@ public class EventCommand implements CommandExecutor {
 										int tpX = 0;
 										int tpZ = 0;
 										if (select == 0) {
-											tpX = x + random.nextInt(Event.teleportRadius);
-											tpZ = z + random.nextInt(Event.teleportRadius);
+											tpX = x + random.nextInt(EventControl.teleportRadius);
+											tpZ = z + random.nextInt(EventControl.teleportRadius);
 										} else if (select == 1){
-											tpX = x - random.nextInt(Event.teleportRadius);
-											tpZ = z - random.nextInt(Event.teleportRadius);
+											tpX = x - random.nextInt(EventControl.teleportRadius);
+											tpZ = z - random.nextInt(EventControl.teleportRadius);
 										} else if (select == 2) {
-											tpX = x - random.nextInt(Event.teleportRadius);
-											tpZ = z + random.nextInt(Event.teleportRadius);
+											tpX = x - random.nextInt(EventControl.teleportRadius);
+											tpZ = z + random.nextInt(EventControl.teleportRadius);
 										} else if (select == 3) {
-											tpX = x + random.nextInt(Event.teleportRadius);
-											tpZ = z - random.nextInt(Event.teleportRadius);
+											tpX = x + random.nextInt(EventControl.teleportRadius);
+											tpZ = z - random.nextInt(EventControl.teleportRadius);
 										}
 										
 										loc.setX(tpX);
@@ -177,14 +177,14 @@ public class EventCommand implements CommandExecutor {
 						
 						for (Player eventPlayer : Bukkit.getOnlinePlayers()) {
 							if (EventGroup.isInEvent(eventPlayer)) {
-								Event.leaveEvent(eventPlayer, plugin, true);
+								EventControl.leaveEvent(eventPlayer, plugin, true);
 								eventPlayer.sendMessage(main.chatPrefix + "Az eventet leállították, ki lettál léptetve!");
-								Event.eventPlayerCounter = 0;
+								EventControl.eventPlayerCounter = 0;
 								eventPlayer.setFoodLevel(20);
 							}
 						}
 						
-						Event.eventBroadcasted = false;
+						EventControl.eventBroadcasted = false;
 						player.sendMessage(main.chatPrefix + "Leállítottad az eventet!");
 						logger.info("[ElectricFloor] " + player.getName() + " leállította az eventet!");
 					} else {
@@ -214,7 +214,7 @@ public class EventCommand implements CommandExecutor {
 									
 									Utils.teleportWithConfig(target, plugin, "spawn", false);
 									target.sendMessage(main.chatPrefix + "ki lettél rúgva az eventről " + player.getName() + " által");
-									Event.eventPlayerCounter--;
+									EventControl.eventPlayerCounter--;
 									logger.info("[ElectricFloor] " + player.getName() + " kirúgta az eventről őt: " + target.getName());
 								} else {
 									player.sendMessage(ElectricFloor.warnPrefix + "Â§c" + target.getName() + " nem csatlakozott az eventhez!");
@@ -230,7 +230,7 @@ public class EventCommand implements CommandExecutor {
 				
 				if (args[0].equalsIgnoreCase("join")) { //join paraméter
 					if (player.hasPermission("electricfloor.admin") || player.hasPermission("electricfloor.event") || player.hasPermission("electricfloor.player") || player.hasPermission("electricfloor.event.join")) {
-						Event.joinEvent(player, plugin, false);
+						EventControl.joinEvent(player, plugin, false);
 					} else {
 						player.sendMessage(ElectricFloor.warnPrefix + "Â§cNincs jogod a parancs használatára!");
 					}
@@ -239,7 +239,7 @@ public class EventCommand implements CommandExecutor {
 				if (args[0].equalsIgnoreCase("leave")) {
 					if (player.hasPermission("electricfloor.admin") || player.hasPermission("electricfloor.event") || player.hasPermission("electricfloor.player") || player.hasPermission("electricfloor.event.leave")) {
 						eLog.log(LogLevel.INFO, player.getName() + " elhagyta az eventet");
-						Event.leaveEvent(player, plugin, false);
+						EventControl.leaveEvent(player, plugin, false);
 					} else {
 						player.sendMessage(ElectricFloor.warnPrefix + "Â§cNincs jogod a parancs használatára!");
 					}

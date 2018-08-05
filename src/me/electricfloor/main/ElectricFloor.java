@@ -20,7 +20,7 @@ import me.electricfloor.NMSimplement.versions.NMS_1_8_R3;
 import me.electricfloor.NMSimplement.versions.NMS_1_9_R1;
 import me.electricfloor.NMSimplement.versions.NMS_1_9_R2;
 import me.electricfloor.config.ConfigManager;
-import me.electricfloor.event.Event;
+import me.electricfloor.event.EventControl;
 import me.electricfloor.event.EventGroup;
 import me.electricfloor.file.ELogger;
 import me.electricfloor.file.LogLevel;
@@ -79,7 +79,7 @@ public class ElectricFloor extends JavaPlugin implements Listener {
 			eLogger.info("If you want to disable motd, set it false in mainConfig.yml");
 		}
 		
-		Event.teleportRadius = manager.getConfig(MAIN_CONFIG).getInt("teleportRadius", 5);
+		EventControl.teleportRadius = manager.getConfig(MAIN_CONFIG).getInt("teleportRadius", 5);
 		
 		chatPrefix = manager.getConfig(MAIN_CONFIG).getString("messages.prefix", "§b[§eElectricFloor§b]§r ");
 		warnPrefix = manager.getConfig(MAIN_CONFIG).getString("messages.warnprefix","§a[§2ElectricFloor§a]§r ");
@@ -99,11 +99,11 @@ public class ElectricFloor extends JavaPlugin implements Listener {
 	
 	public void onDisable() {
 		eLogger.info("Disabling...");
-		Event.eventReadyTo = false;
-		Event.eventBroadcasted = false;
+		EventControl.eventReadyTo = false;
+		EventControl.eventBroadcasted = false;
 		
 		for (Player all : Bukkit.getOnlinePlayers()) {
-			Event.leaveEvent(all, plugin, true);
+			EventControl.leaveEvent(all, plugin, true);
 		}
 		
 		//reset arena

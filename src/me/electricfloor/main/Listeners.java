@@ -26,7 +26,7 @@ import org.bukkit.plugin.Plugin;
 
 import me.electricfloor.Language.Language;
 import me.electricfloor.NPCmanagement.Manage;
-import me.electricfloor.event.Event;
+import me.electricfloor.event.EventControl;
 import me.electricfloor.event.EventGroup;
 import me.electricfloor.file.ELogger;
 import me.electricfloor.file.LogLevel;
@@ -65,7 +65,7 @@ public class Listeners implements Listener {
 			loc.setY(loc.getY() - 1);
 			Block block = loc.getBlock();
 			if (block.getType() == Material.STAINED_GLASS) {
-				Event.eventBlocks(player, ElectricFloor.getPlugin());
+				EventControl.eventBlocks(player, ElectricFloor.getPlugin());
 			}
 		}
 		
@@ -92,14 +92,14 @@ public class Listeners implements Listener {
 				if (!(is == null)) {
 					if (a == Action.LEFT_CLICK_BLOCK && is.getType() == Material.WOOD_AXE) {
 						Block block = event.getClickedBlock();
-						Event.sel1 = block.getLocation();
+						EventControl.sel1 = block.getLocation();
 						event.setCancelled(true);
 						player.sendMessage(ElectricFloor.chatPrefix + "Pos1 selected");
 					}
 					
 					if (a == Action.RIGHT_CLICK_BLOCK && is.getType() == Material.WOOD_AXE) {
 						Block block = event.getClickedBlock();
-						Event.sel2 = block.getLocation();
+						EventControl.sel2 = block.getLocation();
 						player.sendMessage(ElectricFloor.chatPrefix + "Pos2 selected");
 					}
 				}
@@ -108,7 +108,7 @@ public class Listeners implements Listener {
 		
 		@EventHandler
 		public void onPlayerLogout(PlayerQuitEvent event) {
-			Event.leaveEvent(event.getPlayer(), plugin, true);
+			EventControl.leaveEvent(event.getPlayer(), plugin, true);
 			EventGroup.removePlayer(event.getPlayer());
 		}
 		
