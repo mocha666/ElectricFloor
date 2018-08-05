@@ -9,10 +9,19 @@ import me.electricfloor.main.ElectricFloor;
 
 public class BlockManager {
 	
+	/*
+	 * Blue
+	 */
 	private ArrayList<Block> state1 = new ArrayList<Block>();
 	
+	/*
+	 * Dark Blue 
+	 */
 	private ArrayList<Block> state2 = new ArrayList<Block>();
 	
+	/*
+	 *  Red
+	 */
 	private ArrayList<Block> state3 = new ArrayList<Block>();
 	
 	/**
