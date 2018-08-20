@@ -22,25 +22,31 @@ import me.electricfloor.main.ElectricFloor;
 @Beta
 public class Language {
 	
-	private HashMap<String, String> messages = new HashMap<String, String>();
-	private HashMap<String, String> defaultM = new HashMap<String, String>();
+	private static HashMap<String, String> messages = new HashMap<String, String>();
+	private static HashMap<String, String> defaultM = new HashMap<String, String>();
 	
-	private Plugin plugin = ElectricFloor.getPlugin();
+	private static Plugin plugin = ElectricFloor.getPlugin();
 	
-	private String lang = "en";
+	private static String lang = "en";
 	
-	public ELogger eLog = ElectricFloor.getELogger();
+	public static ELogger eLog = ElectricFloor.getELogger();
 	
-	private Logger logger = Logger.getLogger("Minecraft");
+	private static Logger logger = Logger.getLogger("Minecraft");
+	
+	private static boolean enabled = false;
+	
+	public static boolean isEnabled() {
+		return enabled;
+	}
 
-	public void setupLanguage() {
+	public static void setupLanguage() {
 		lang = ElectricFloor.manager.getConfig(ElectricFloor.MAIN_CONFIG).getString("language", "en");
 		extract();
 		loadCurrentAndDefault();
+		enabled = true;
 	}
 	
-	@SuppressWarnings("unused")
-	public void get(String message) {
+	public static String t(String message) {
 		String msg = null;
 		if (messages.containsKey(message)) {
 			msg = messages.get(message);
@@ -54,6 +60,8 @@ public class Language {
 				throw new ElectricError("Fuckin' error in ElectricFloor language system", new NullPointerException("No such message like this in default messages"));
 			}
 		}
+		
+		return msg;
 	}
 	
 	/**
@@ -63,19 +71,19 @@ public class Language {
 	 * @param message
 	 * @param args
 	 */
-	public String get(String message, String... args) {
+	public static String t(String message, String... args) {
 		String returns = null;
 		if (messages.containsKey(message)) {
 			returns = prepareArgLists(messages.get(message), args);
 		} else if (defaultM.containsKey(message)) {
-			returns = prepareArgLists(messages.get(message), args);
+			returns = prepareArgLists(defaultM.get(message), args);
 		} else {
 			throw new NullPointerException("No such message: " + message);
 		}
 		return returns;
 	}
 	
-	private String prepareArgLists(String message, String... args) {
+	private static String prepareArgLists(String message, String... args) {
 		int argIndex = message.split("{").length;
 		for (int i = 0; i < argIndex; i++) {
 			message.replace("{" + i + "}", args[i]);
@@ -83,7 +91,7 @@ public class Language {
 		return message;
 	}
 	
-	private void extract() {
+	private static void extract() {
 		File langFolder;
 		ArrayList<String> langFiles = new ArrayList<String>();
 		langFiles.add("hu.txt");
@@ -119,7 +127,7 @@ public class Language {
 		}
 	}
 	
-	private void loadCurrentAndDefault() {
+	private static void loadCurrentAndDefault() {
 		try {
 			BufferedReader br = new BufferedReader(new FileReader(plugin.getDataFolder() + "/Language/" + lang + ".txt"));
 		    String line = null;

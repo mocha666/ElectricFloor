@@ -78,14 +78,14 @@ public class EventCommand implements CommandExecutor {
 				if (args[0].equalsIgnoreCase("stopclear")) {
 					if (player.hasPermission("electricfloor.admin")) {
 						player.removeMetadata("clearing", plugin);
-						player.sendMessage(main.chatPrefix + "manual clearing disabled");//beta log
+						player.sendMessage(ElectricFloor.chatPrefix + "manual clearing disabled");//beta log
 					}
 				}
 				
 				if (args[0].equalsIgnoreCase("clear")) {
 					if (player.hasPermission("electricfloor.admin")) {
 						player.setMetadata("clearing", new FixedMetadataValue(plugin, "EF"));
-						player.sendMessage(main.chatPrefix + "manual clearing enabled");//beta log
+						player.sendMessage(ElectricFloor.chatPrefix + "manual clearing enabled");//beta log
 					}
 				}
 				
@@ -158,13 +158,13 @@ public class EventCommand implements CommandExecutor {
 									}
 								}
 								
-								player.sendMessage(main.chatPrefix + "Sikeresen elindítottad az eventet!");//check bc!!!!!!!!!
+								player.sendMessage(ElectricFloor.chatPrefix + "Sikeresen elindítottad az eventet!");//check bc!!!!!!!!!
 								logger.info("[ElectricFloor] " + player.getName() + " elindította az eventet!");
 							} else {
-								player.sendMessage(main.chatPrefix + "Az eventhez szĂĽkséges helyek kĂ¶zĂĽl egy vagy tĂ¶bb nincs beállítva!");
+								player.sendMessage(ElectricFloor.chatPrefix + "Az eventhez szĂĽkséges helyek kĂ¶zĂĽl egy vagy tĂ¶bb nincs beállítva!");
 							}
 						} else {
-							player.sendMessage(main.chatPrefix + "Az event indításához előbb hirdetned kell azt!");
+							player.sendMessage(ElectricFloor.chatPrefix + "Az event indításához előbb hirdetned kell azt!");
 						}
 					} else {
 						player.sendMessage(ElectricFloor.warnPrefix + "Â§cNincs jogod a parancs használatára!");
