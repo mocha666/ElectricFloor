@@ -5,18 +5,31 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.LocalDateTime;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 
-import me.electricfloor.debug.Debug;
 import me.electricfloor.main.ElectricFloor;
 
 public class ELogger extends YamlConfiguration {
 
-	static Plugin plugin = ElectricFloor.getPlugin();
+	private Plugin plugin;
+	private Logger logger;
+	private final String consolePrefix = "[ElectricFloor]";
 	
-	public void createLogFile(boolean selector) {
+	public ELogger(Logger logger, Plugin plugin) {
+		this(logger, plugin, false);
+	}
+	
+	public ELogger(Logger logger, Plugin plugin, boolean override) {
+		this.logger = logger;
+		this.plugin = plugin;
+		createLogFile(override);
+	}
+	
+	private void createLogFile(boolean selector) {
 		try {
             File file = new File(plugin.getDataFolder().getAbsolutePath() + "/log.txt");
             if (!file.exists()){
@@ -72,20 +85,43 @@ public class ELogger extends YamlConfiguration {
 	}
 	
 	public void log(LogLevel level, String log) {
-		int hour = LocalDateTime.now().getHour();
-		int min = LocalDateTime.now().getMinute();
-		int sec = LocalDateTime.now().getSecond();
+		LocalDateTime now = LocalDateTime.now();
 		
-		String prefix = "[" + hour + ":" + min + ":" + sec + " " + level.toString() + "]:";
+		String filePrefix = "[" + now.getHour() + ":" + now.getMinute() + ":" + now.getSecond() + " " + level.toString() + "]:";
+		
+		String consoleMessage = null;
+		if (!log.startsWith(consolePrefix)) {
+			consoleMessage = consolePrefix + " " + log;
+		}
+		
+		switch (level) {
+		case CRITICAL:
+			logger.log(Level.SEVERE, consoleMessage);
+			break;
+		case DEBUG:
+			logger.log(Level.CONFIG, consoleMessage);
+			break;
+		case ERROR:
+			logger.log(Level.SEVERE, consoleMessage);
+			break;
+		case INFO:
+			logger.log(Level.INFO, consoleMessage);
+			break;
+		case WARNING:
+			logger.log(Level.WARNING, consoleMessage);
+			break;
+		default:
+			throw new IllegalArgumentException("No such message type");
+		}
+		
 		
 		try {
 			PrintWriter writer = new PrintWriter(new FileWriter(plugin.getDataFolder().getAbsolutePath() + "/log.txt", true));
-			writer.println(prefix + " " + log);
+			writer.println(filePrefix + " " + log);
 			writer.close();
 		} catch (Exception e) {
 			System.out.println("[ElectricFloor] Failed to write into log file :(");
-			System.out.println("[ElectricFloor] Error: " + e.getMessage());
-			System.out.println("[ElectricFloor] Caused by: " + e.getCause());
+			e.printStackTrace();
 		}
 		
 	}

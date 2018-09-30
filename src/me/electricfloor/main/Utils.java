@@ -179,6 +179,17 @@ public class Utils {
 	    }
 	}
 
+	/**
+	 * Obsolete method.
+	 * Should change to the ConfigManager#getLocation
+	 * 
+	 * @param player
+	 * @param plugin
+	 * @param name
+	 * @param callback
+	 * @return The requested location
+	 */
+	@Deprecated
 	public static Location teleportWithConfig(Player player, Plugin plugin, String name, boolean callback) {
 		String worldS = (String) plugin.getConfig().get("positions." + name + ".world");
 		World world = Bukkit.getServer().getWorld(worldS);
@@ -226,6 +237,7 @@ public class Utils {
 		
 		fm.setPower(0);
 		f.setFireworkMeta(fm);
+		f.detonate();
 	    
 	}
 

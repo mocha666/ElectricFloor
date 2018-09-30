@@ -39,9 +39,9 @@ public class Manage implements CommandExecutor {
 				if (args.length == 0) {
 					player.sendMessage("help menu coming soon");
 				} else if (args.length == 1) {
-					//TODO: command help
+					//command help
 				} else if (args.length == 2) {
-					//TODO: commands
+					//commands
 					if (args[0].equalsIgnoreCase("create")) {
 						String name = args[1];
 						NpcConfig config = new NpcConfig(name, player.getLocation());
@@ -52,13 +52,13 @@ public class Manage implements CommandExecutor {
 						deleteNPC();
 					}
 				} else {
-					player.sendMessage(ElectricFloor.warnPrefix + "§cHibás definíció!");
+					player.sendMessage(ElectricFloor.warnPrefix + "ï¿½cHibï¿½s definï¿½ciï¿½!");
 				}
 			} else {
-				player.sendMessage(ElectricFloor.warnPrefix + "§cNincs jogod a parancs használatára!");
+				player.sendMessage(ElectricFloor.warnPrefix + "ï¿½cNincs jogod a parancs hasznï¿½latï¿½ra!");
 			}
 		} else {
-			sender.sendMessage("[ElectricFloor] Ezt a parancsot csak player használhatja!");
+			sender.sendMessage("[ElectricFloor] Ezt a parancsot csak player hasznï¿½lhatja!");
 		}
 		
 		return true;
@@ -89,11 +89,11 @@ public class Manage implements CommandExecutor {
 	
 	@SuppressWarnings("deprecation")
 	public static void openGUI(Player player, Plugin plugin) {
-		Inventory inv = Bukkit.createInventory(null, 27, ChatColor.BLUE + "Csatlakozás az eventhez");
+		Inventory inv = Bukkit.createInventory(null, 27, ChatColor.BLUE + "Csatlakozï¿½s az eventhez");
 		
 		ItemStack yes = new ItemStack(Material.STAINED_CLAY, 1, DyeColor.GREEN.getData());
 		ItemMeta yesMeta = yes.getItemMeta();
-		yesMeta.setDisplayName(ChatColor.GREEN + "Csatlakozás");
+		yesMeta.setDisplayName(ChatColor.GREEN + "Csatlakozï¿½s");
 		ArrayList<String> yesLore = new ArrayList<String>();
 		yesLore.add(" ");
 		yesLore.add(ChatColor.GOLD + "Csatlakozol az eventhez");
@@ -103,7 +103,7 @@ public class Manage implements CommandExecutor {
 		
 		ItemStack no = new ItemStack(Material.STAINED_CLAY, 1, DyeColor.GREEN.getData());
 		ItemMeta noMeta = yes.getItemMeta();
-		yesMeta.setDisplayName(ChatColor.GREEN + "Csatlakozás");
+		yesMeta.setDisplayName(ChatColor.GREEN + "Csatlakozï¿½s");
 		ArrayList<String> noLore = new ArrayList<String>();
 		noLore.add(" ");
 		noLore.add(ChatColor.GOLD + "Csatlakozol az eventhez");

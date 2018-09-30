@@ -19,6 +19,13 @@ import me.electricfloor.file.FileHelper;
 import me.electricfloor.file.LogLevel;
 import me.electricfloor.main.ElectricFloor;
 
+/**
+ * This class is obsolete.
+ * Can produce errors, us at own risk.
+ * 
+ * @author MrExplode
+ *
+ */
 public class Debug {
 	
 	public String debugPrefix = "[DEBUG] ";
@@ -27,7 +34,7 @@ public class Debug {
 	
 	private ArrayList<StoredPlayer> enabledPlayers = new ArrayList<StoredPlayer>();
 	
-	private ELogger eLog = new ELogger();
+	private ELogger eLog = ElectricFloor.getELogger();
 	private Plugin plugin = ElectricFloor.getPlugin();
 	
 	private String nl = System.getProperty("line.separator");

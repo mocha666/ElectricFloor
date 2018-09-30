@@ -16,9 +16,6 @@ public class EfCommand implements CommandExecutor {
 	private Plugin plugin;
 	
 	private ELogger eLog = ElectricFloor.getELogger();
-	//TODO: language in efCommand class
-	@SuppressWarnings("unused")
-	private Language l = ElectricFloor.getLanguage();
 	
 	public static final String[] preLines = new String[] {
 			" ",
@@ -45,7 +42,6 @@ public class EfCommand implements CommandExecutor {
 	public static final String[] setterHelpPage = new String[] {
 		"§a=============§b[ Electric Floor ]§a=============",
 		"§b/ef set spawn  - Spawn loc - sets automatically",
-		"§b/ef set start  - Start location",
 		"§b/ef set lobby  - Lobby location",
 		"§b/ef set arena  - Arena location",
 		"§b/ef set lost   - Lost players location",

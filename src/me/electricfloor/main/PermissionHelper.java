@@ -19,19 +19,22 @@ public class PermissionHelper {
 	 * btw, i dont really care about that, i created perm for all command, and then set them as the children of main groups like admin, or player. 
 	 */
 	public static boolean isPlayer(Player player) {
-		return (player.hasPermission("electricfloor.player") || player.hasPermission("electricfloor.event.join") || player.hasPermission("electricfloor.event.leave"));
+		return (player.hasPermission("electricfloor.player") || player.hasPermission("electricfloor.event.join") || player.hasPermission("electricfloor.event.leave") && !isAdmin(player));
 	}
 	
 	public static boolean canSet(Player player)  {
-		return (player.hasPermission("electricfloor.settings") || player.hasPermission("electricfloor.admin"));
+		return (player.hasPermission("electricfloor.settings") || player.hasPermission("electricfloor.admin") || player.hasPermission("electricfloor.set.lobby")
+				|| player.hasPermission("electricfloor.set.lobby") || player.hasPermission("electricfloor.set.arena") || player.hasPermission("electricfloor.set.lost")
+				|| player.hasPermission("electricfloor.set.spawn") || player.hasPermission("electricfloor.set.win1") || player.hasPermission("electricfloor.set.win2")
+				|| player.hasPermission("electricfloor.set.win3"));
 	}
 	
 	public static boolean controlEvent(Player player) {
-		return (player.hasPermission("electricfloor.event"));
+		return (player.hasPermission("electricfloor.event") || player.hasPermission("electricfloor.event.bc") || player.hasPermission("electricfloor.event.start") || player.hasPermission("electricfloor.event.stop") || player.hasPermission("electricfloor.event.kick"));
 	}
 	
 	public static boolean canSetPlace(Player player, String place) {
-		return player.hasPermission("electricfloor.set" + place);
+		return player.hasPermission("electricfloor.set." + place);
 	}
 	
 	public static boolean canReload(Player player) {

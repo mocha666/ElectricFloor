@@ -35,9 +35,6 @@ public class Listeners implements Listener {
 	
 	private Plugin plugin = ElectricFloor.getPlugin();
 	private ELogger eLogger = ElectricFloor.getELogger();
-	//TODO: language in Listeners class
-	@SuppressWarnings("unused")
-	private Language l = ElectricFloor.getLanguage();
 	
 	//Event handlers
 		@EventHandler

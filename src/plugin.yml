@@ -19,7 +19,7 @@ commands:
 permissions:
     electricfloor.admin:
         default: op
-        description: Minden jog
+        description: All rights
         children:
             electricfloor.event.bc: true
             electricfloor.event.start: true
@@ -38,13 +38,13 @@ permissions:
             electricfloor.reload: true
     electricfloor.player:
         default: true
-        description: Player jogok
+        description: Player rights
         children:
             electricfloor.event.join: true
             electricfloor.event.leave: true
     electricfloor.settings:
         default: false
-        description: Az event kofigurálási jogai
+        description: Event config
         children:
             electricfloor.set.wait: true
             electricfloor.set.arena: true
@@ -57,7 +57,7 @@ permissions:
             electricfloor.player: true
     electricfloor.event:
         default: false
-        description: Event irányítási jogok
+        description: Event control
         children:
             electricfloor.event.bc: true
             electricfloor.event.start: true
@@ -67,49 +67,52 @@ permissions:
             electricfloor.event.leave: true
     electricfloor.event.bc:
         default: false
-        description: Event hirdetése
+        description: Event broadcast
     electricfloor.event.start:
         default: false
-        description: Event indítása
+        description: Event start
     electricfloor.event.stop:
         default: false
-        description: Event leállítása
+        description: Event stop
     electricfloor.event.kick:
         default: false
-        description: Játékos kirúgása az eventről
+        description: Kick a player
     electricfloor.event.join:
         default: false
-        description: Csatlakozás az eventhez
+        description: Join to the event
     electricfloor.event.leave:
         default: false
-        description: Event elhagyása
-    electricfloor.set.wait:
+        description: Leave the event
+    electricfloor.event.create:
         default: false
-        description: Váró helyének beállítása
-    electricfloor.set.start:
+        description: Create a new event, without any config
+    electricfloor.event.delete:
         default: false
-        description: Start helyének beállítása, e pont körül lesznek szétszórva a playerek
+        description: Delete an event
+    electricfloor.set.lobby:
+        default: false
+        description: Set lobby
     electricfloor.set.arena:
         default: false
-        description: Aréna helyének beállítása
-    electricfloor.set.loss:
+        description: Set the arena
+    electricfloor.set.lost:
         default: false
-        description: Vesztesek helyének beállítása
+        description: Set the loosers place
     electricfloor.set.spawn:
         default: false
-        description: Spawn helyének beállítása, ide kerülnek a playerek az event vége után, alaőértelmezetten a worldspawnpoint
+        description: Set the spawn, for the teleportation at the event
     electricfloor.set.win1:
         default: false
-        description: Az első helyezett helyének beállítása
+        description: Set the 1st player pace
     electricfloor.set.win2:
         default: false
-        description: A második helyezett helyének beállítása
+        description: Set the 2nd player pace
     electricfloor.set.win3:
         default: false
-        description: A harmadik helyezett helyének beállítása
+        description: Set the 3rd player pace
     electricfloor.reload:
         default: false
-        description: A plugin újraindításának joga
+        description: Plugin reload
     
             
             

@@ -14,6 +14,9 @@ public class Arena {
 	public boolean autoStart = false;
 	
 	public ArenaState state = ArenaState.WAITING;
+	public ArenaType type = ArenaType.EVENT;
+
+	public ArenaGroup groups = new ArenaGroup();
 	
 	public String name = null;
 	public String config = null;

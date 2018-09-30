@@ -40,8 +40,6 @@ public class ElectricFloor extends JavaPlugin implements Listener {
 	private static ElectricFloor instance;
 	private static Listeners listeners;
 	private static NMSimplement implement;
-	//TODO: logging
-	private static Language l;
 	
 	public static final String MAIN_CONFIG = "mainConfig";
 	
@@ -49,7 +47,6 @@ public class ElectricFloor extends JavaPlugin implements Listener {
 	
 	public void onEnable() {
 		initVariables();
-		eLogger.createLogFile(isRestart);
 		eLogger.info("Starting plugin...");
 		
 		if (manager.getConfig(MAIN_CONFIG) == null) {
@@ -57,22 +54,24 @@ public class ElectricFloor extends JavaPlugin implements Listener {
 			manager.reloadConfig(MAIN_CONFIG);
 		}
 		
+		//strong dependency
 		setupNMS();
 		setupEconomy();
 		
+		//register events
 		getServer().getPluginManager().registerEvents(listeners, this);
 		
+		//register commands
 		getCommand("electricfloor").setExecutor(new EfCommand(this));
 		getCommand("ef").setExecutor(new EfCommand(this));
 		getCommand("event").setExecutor(new EventCommand(this));
 		
+		//not too strong dfependency
 		setupWorldEdit();
 		
-		l.setupLanguage();
+		Language.setupLanguage();
 		
-		logger.info("[" + pdfile.getName() + "]" + " (V." + pdfile.getVersion() + ") Enabled!");
-		
-		logger.severe("[ElectricFloor] This version is not working. Just as you can see. Not buggy version, NOT WORKING. Changes are in progress.");
+		logger.severe("[ElectricFloor] This version is not working. In development, modules aren't finished. Changes are in progress. Don't use it.");
 		
 		eLogger.info("Plugin successfully started!");
 		if (manager.getConfig(MAIN_CONFIG).getBoolean("motd")) {
@@ -81,19 +80,19 @@ public class ElectricFloor extends JavaPlugin implements Listener {
 		
 		EventControl.teleportRadius = manager.getConfig(MAIN_CONFIG).getInt("teleportRadius", 5);
 		
-		chatPrefix = manager.getConfig(MAIN_CONFIG).getString("messages.prefix", "§b[§eElectricFloor§b]§r ");
-		warnPrefix = manager.getConfig(MAIN_CONFIG).getString("messages.warnprefix","§a[§2ElectricFloor§a]§r ");
+		chatPrefix = manager.getConfig(MAIN_CONFIG).getString("messages.prefix", "§b[§eElectricFloor§b]§r").replace('&', '§') + " ";
+		warnPrefix = manager.getConfig(MAIN_CONFIG).getString("messages.warnprefix","§a[§2ElectricFloor§a]§r").replace('&', '§') + " ";
 		
 		if (Bukkit.getOnlinePlayers().size() != 0) {
 			eLogger.log(LogLevel.CRITICAL, "It seems ElectricFloor plugin has been reloaded, with an other plugin, or with /reload command. Please try to avoid this");
-			logger.log(Level.WARNING, "It seems ElectricFloor plugin has been reloaded, with en other plugin, or with /reload command. Please try to avoid this");
-			
 			for (Player all : Bukkit.getOnlinePlayers()) {
 				if (!EventGroup.isAppearSomewhere(all)) {
 					EventGroup.addToGroup(all, EventGroup.NOT_MARKED);
 				}
 			}
 		}
+		
+		eLogger.info("(Version " + pdfile.getVersion() + ") Enabled!");
 		
 	}
 	
@@ -174,11 +173,10 @@ public class ElectricFloor extends JavaPlugin implements Listener {
 	
 	public void initVariables() {
 		instance = this;
-		eLogger = new ELogger();
 		logger = Logger.getLogger("Minecraft");
+		eLogger = new ELogger(logger, getPlugin());
 		isRestart = false;
 		pdfile = getDescription();
-		l = new Language();
 		listeners = new Listeners();
 	}
 	
@@ -196,10 +194,6 @@ public class ElectricFloor extends JavaPlugin implements Listener {
 	
 	public static ELogger getELogger() {
 		return eLogger;
-	}
-	
-	public static Language getLanguage() {
-		return l;
 	}
 	
 	private void setupWorldEdit() {
