@@ -1,9 +1,10 @@
 package me.electricfloor.main;
 
-import java.util.logging.Level;
+import java.util.ArrayList;
 import java.util.logging.Logger;
 
 import org.bukkit.Bukkit;
+import org.bukkit.craftbukkit.v1_10_R1.CraftServer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
@@ -19,6 +20,8 @@ import me.electricfloor.NMSimplement.versions.NMS_1_8_R2;
 import me.electricfloor.NMSimplement.versions.NMS_1_8_R3;
 import me.electricfloor.NMSimplement.versions.NMS_1_9_R1;
 import me.electricfloor.NMSimplement.versions.NMS_1_9_R2;
+import me.electricfloor.command.AbstractECommand;
+import me.electricfloor.command.EfCommand;
 import me.electricfloor.config.ConfigManager;
 import me.electricfloor.event.EventControl;
 import me.electricfloor.event.EventGroup;
@@ -64,9 +67,10 @@ public class ElectricFloor extends JavaPlugin implements Listener {
 		//register commands
 		getCommand("electricfloor").setExecutor(new EfCommand(this));
 		getCommand("ef").setExecutor(new EfCommand(this));
-		getCommand("event").setExecutor(new EventCommand(this));
 		
-		//not too strong dfependency
+		//getCommand("event").setExecutor(new EventCommand(this));
+		
+		//not too strong dependency
 		setupWorldEdit();
 		
 		Language.setupLanguage();

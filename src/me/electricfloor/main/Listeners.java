@@ -86,7 +86,7 @@ public class Listeners implements Listener {
 				Player player = event.getPlayer();
 				ItemStack is = player.getItemInHand();
 				
-				if (!(is == null)) {
+				if (is != null) {
 					if (a == Action.LEFT_CLICK_BLOCK && is.getType() == Material.WOOD_AXE) {
 						Block block = event.getClickedBlock();
 						EventControl.sel1 = block.getLocation();

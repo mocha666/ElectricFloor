@@ -1,4 +1,4 @@
-package me.electricfloor.main;
+package me.electricfloor.command;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -10,6 +10,8 @@ import org.bukkit.plugin.Plugin;
 import me.electricfloor.Language.Language;
 import me.electricfloor.file.ELogger;
 import me.electricfloor.file.LogLevel;
+import me.electricfloor.main.ElectricFloor;
+import me.electricfloor.main.PermissionHelper;
 
 public class EfCommand implements CommandExecutor {
 	
@@ -69,8 +71,6 @@ public class EfCommand implements CommandExecutor {
 					Bukkit.getServer().getPluginManager().disablePlugin(plugin);
 					Bukkit.getServer().getPluginManager().enablePlugin(plugin);
 					sender.sendMessage("[ElectricFloor] Successful reload!");
-				} else if (args[0].equalsIgnoreCase("debug")) {
-					//debugCmd(sender, cmd, commandLabel, args);
 				} else {
 					sender.sendMessage(mainHelpPage);
 				}

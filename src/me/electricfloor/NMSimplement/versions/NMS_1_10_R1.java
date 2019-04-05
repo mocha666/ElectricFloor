@@ -10,7 +10,6 @@ import org.bukkit.plugin.Plugin;
 import me.electricfloor.NMSimplement.NMSimplement;
 import me.electricfloor.NMSimplement.TitleColor;
 import me.electricfloor.NMSimplement.TitleStyle;
-import me.electricfloor.NPCmanagement.ConfigReader;
 import net.minecraft.server.v1_10_R1.BlockPosition;
 import net.minecraft.server.v1_10_R1.IChatBaseComponent;
 import net.minecraft.server.v1_10_R1.IChatBaseComponent.ChatSerializer;
@@ -21,9 +20,6 @@ import net.minecraft.server.v1_10_R1.PacketPlayOutWorldEvent;
 import net.minecraft.server.v1_10_R1.PlayerConnection;
 
 public class NMS_1_10_R1 implements NMSimplement {
-	
-	@SuppressWarnings("unused")
-	private ConfigReader reader = new ConfigReader();
 	
 	@Override
 	public void sendTitle(Player player, String title, TitleColor color, TitleStyle style,  String subtitle, TitleColor subColor, TitleStyle subStyle, int time) {
@@ -88,7 +84,7 @@ Plugin pl = Bukkit.getServer().getPluginManager().getPlugin("ElectricFloor");
 		
 		MinecraftServer nmsServer = ((CraftServer) Bukkit.getServer()).getServer();
 		WorldServer nmsWorld = ((CraftWorld) Bukkit.getServer().getWorld(world)).getHandle();
-		GameProfile gameProfile = new GameProfile(UUID.randomUUID(), "§aElectricFloor");
+		GameProfile gameProfile = new GameProfile(UUID.randomUUID(), "ï¿½aElectricFloor");
 		
 		EntityPlayer npc = new EntityPlayer(nmsServer, nmsWorld, gameProfile, new PlayerInteractManager(nmsWorld));
 		Player npcPlayer = npc.getBukkitEntity().getPlayer();
