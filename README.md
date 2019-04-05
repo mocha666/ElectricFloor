@@ -1,6 +1,24 @@
 # ElectricFloor
 ## Minecraft Bukkit minigame plugin.
-### ALPHA state, don't use it. Currently not working.
+### Project stopped for good reasons.
+I'm so sad about this but I gave up this project finally.
+This project was a lot for me, but for some good reasons I can't made it
+into a working thing, however I learnt a lot about this, I gained sooooo
+much experience, but I should recode the whole project from scratch
+because of the mistakes.
+
+The main reason is the HORRIBLE code I wrote. This project is the 2nd
+project I ever started since I learn programming, and the core of it is just
+a big mess. Everything is way too much overcomplicated, and nothing is
+finished. I also fell into feature creep, wich killed the project, since there
+were no "1.0" for it, I always added more and more things, based on a
+sphagetti-code core.
+
+Sad.
+I'm really sad, but I don't have time.
+This was a piece of my hearth, I was doing this project for almost 2 years.
+
+### Old description:
 
 The essence of ElectricFloor to make a good short minigame, without changing the server.
 
